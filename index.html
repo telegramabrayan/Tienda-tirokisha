@@ -539,12 +539,20 @@
     font-family:'Fredoka'; font-weight:600; font-size:16px;
     color:var(--ink);
   }
-  .fav-tag{
-    position:absolute; top:10px; right:10px;
-    background:var(--mustard); color:var(--ink);
+  .badge-stack{
+    position:absolute; top:10px; right:10px; z-index:2;
+    display:flex; flex-direction:column; align-items:flex-end; gap:5px;
+    max-width:calc(100% - 70px);
+  }
+  .tag-badge{
     font-size:11px; font-weight:700;
     padding:4px 9px; border-radius:999px;
+    white-space:nowrap;
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
   }
+  .tag-badge.b-fav{background:var(--mustard); color:var(--ink);}
+  .tag-badge.b-new{background:var(--turquoise); color:#08312F;}
+  .tag-badge.b-hot{background:var(--coral); color:#fff;}
   .card-media{cursor:zoom-in;}
   .card-desc{
     font-size:12.5px; color:var(--ink-soft); line-height:1.45;
@@ -565,7 +573,7 @@
   }
   .detail-desc{font-size:14.5px; color:var(--ink-soft); line-height:1.6; margin-bottom:12px;}
 
-  /* ---------- WhatsApp flotante ---------- */
+  /* ---------- WhatsApp / Instagram flotantes ---------- */
   .wa-float{
     position:fixed; right:20px; bottom:20px; z-index:45;
     width:56px; height:56px; border-radius:999px;
@@ -576,6 +584,72 @@
   }
   .wa-float:hover{transform:scale(1.08);}
   .wa-float svg{width:28px;height:28px;}
+
+  .ig-float{
+    position:fixed; right:20px; bottom:86px; z-index:45;
+    width:48px; height:48px; border-radius:999px;
+    background:radial-gradient(circle at 30% 110%, #FFD776 0%, #FF7A5C 30%, #E22C6B 55%, #7B3FF2 90%);
+    color:white;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 18px rgba(226,44,107,0.35);
+    transition:transform .15s ease;
+  }
+  .ig-float:hover{transform:scale(1.08);}
+  .ig-float svg{width:22px;height:22px;}
+
+  /* ---------- Banner promocional ---------- */
+  .promo-banner{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    flex-wrap:wrap; text-align:center;
+    max-width:1180px; margin:0 auto 18px; padding:13px 22px;
+    background:linear-gradient(90deg, var(--forest), var(--coral));
+    color:#fff; border-radius:999px; cursor:pointer;
+    box-shadow:0 8px 22px rgba(123,63,242,0.25);
+  }
+  .promo-text{font-family:'Fredoka',sans-serif; font-weight:600; font-size:15.5px;}
+  .promo-sub{font-size:13.5px; opacity:0.92;}
+  @media(max-width:620px){
+    .promo-banner{margin-left:16px; margin-right:16px; padding:11px 16px;}
+  }
+
+  /* ---------- Filtros rápidos (ofertas, destacados, nuevos) ---------- */
+  .quick-filters{display:flex; gap:8px; flex-wrap:wrap; margin:-6px 0 18px;}
+  .quick-filter{
+    padding:7px 14px; border-radius:999px;
+    border:1.5px solid var(--line); background:white;
+    font-size:13px; font-weight:600; color:var(--ink-soft);
+  }
+  .quick-filter:hover{border-color:var(--forest);}
+  .quick-filter.on{background:var(--forest); color:var(--cream); border-color:var(--forest);}
+
+  /* ---------- Sugerencias del buscador ---------- */
+  .search-suggest{
+    display:none; position:absolute; left:0; right:0; top:calc(100% + 6px);
+    background:white; border:1.5px solid var(--line); border-radius:var(--radius-sm);
+    box-shadow:0 10px 26px rgba(0,0,0,0.12); overflow:hidden; z-index:30;
+  }
+  .search-suggest.open{display:block;}
+  .search-suggest button{
+    display:flex; align-items:center; gap:10px; width:100%;
+    padding:9px 14px; text-align:left; background:white;
+    font-size:13.5px; color:var(--ink); border-bottom:1px solid var(--line);
+  }
+  .search-suggest button:last-child{border-bottom:none;}
+  .search-suggest button:hover{background:var(--cream-2);}
+  .search-suggest small{color:var(--ink-soft); font-weight:400;}
+
+  /* ---------- Índice rápido del panel de administración ---------- */
+  .settings-index{
+    display:flex; gap:6px; overflow-x:auto; white-space:nowrap;
+    padding:10px 16px; border-bottom:1px solid var(--line);
+    background:var(--cream);
+  }
+  .settings-index a{
+    flex:0 0 auto; padding:6px 12px; border-radius:999px;
+    background:white; border:1.5px solid var(--line);
+    font-size:12.5px; font-weight:600; color:var(--ink-soft);
+  }
+  .settings-index a:hover{border-color:var(--forest); color:var(--forest);}
 
   .clear-cart{
     width:100%; padding:9px; margin-bottom:10px;
@@ -1033,6 +1107,11 @@
   </div>
 </section>
 
+<a class="promo-banner" id="promoBanner" style="display:none;" target="_blank">
+  <span class="promo-text" id="promoText"></span>
+  <span class="promo-sub" id="promoSub"></span>
+</a>
+
 <div class="mode-wrap">
   <div class="mode-switch">
     <button id="modeMenor" class="on">Por menor</button>
@@ -1051,7 +1130,8 @@
   <div class="tools-row">
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="searchInput" placeholder="Buscar producto…">
+      <input type="text" id="searchInput" placeholder="Buscar producto, categoría…" autocomplete="off">
+      <div class="search-suggest" id="searchSuggest"></div>
     </div>
     <div class="sort-box">
       <select id="sortSelect">
@@ -1061,6 +1141,11 @@
         <option value="nombre">Nombre A–Z</option>
       </select>
     </div>
+  </div>
+  <div class="quick-filters" id="quickFilters">
+    <button class="quick-filter" data-qf="oferta">🔥 Ofertas</button>
+    <button class="quick-filter" data-qf="destacado">★ Destacados</button>
+    <button class="quick-filter" data-qf="nuevo">🆕 Nuevos</button>
   </div>
   <div class="grid" id="grid"></div>
 </main>
@@ -1072,22 +1157,46 @@
     <h3>Personalizar tienda</h3>
     <button class="drawer-close" id="closeSettings">&times;</button>
   </div>
+  <nav class="settings-index" id="settingsIndex"></nav>
   <div class="settings-body">
 
-    <div class="set-group">
-      <h4>Productos</h4>
+    <div class="set-group" id="grp-productos">
+      <h4>🛍️ Productos</h4>
       <div id="admProducts"></div>
       <button class="adm-add" id="addProduct">+ Agregar producto</button>
     </div>
 
-    <div class="set-group">
-      <h4>Categorías</h4>
+    <div class="set-group" id="grp-categorias">
+      <h4>📂 Categorías</h4>
       <div id="admCats"></div>
       <button class="adm-add" id="addCat">+ Agregar categoría</button>
     </div>
 
-    <div class="set-group">
-      <h4>Copia de seguridad</h4>
+    <div class="set-group" id="grp-banner">
+      <h4>📢 Banner promocional</h4>
+      <div class="set-field">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="inBannerOn" style="width:auto;">
+          Mostrar banner arriba del catálogo
+        </label>
+      </div>
+      <div class="set-field">
+        <label>Texto principal</label>
+        <input type="text" id="inBannerTexto" placeholder="🔥 OFERTAS DE LA SEMANA">
+      </div>
+      <div class="set-field">
+        <label>Texto secundario</label>
+        <input type="text" id="inBannerSub" placeholder="Hasta 30% OFF en ropita seleccionada">
+      </div>
+      <div class="set-field">
+        <label>Enlace al tocarlo (opcional)</label>
+        <input type="text" id="inBannerLink" placeholder="#categorias o un link de WhatsApp">
+      </div>
+      <p class="set-hint">Se ve como un cartel angosto entre el inicio y el catálogo. Dejá el texto principal vacío para ocultarlo aunque esté activado.</p>
+    </div>
+
+    <div class="set-group" id="grp-backup">
+      <h4>💾 Copia de seguridad</h4>
       <button class="file-btn" id="exportBtn" style="cursor:pointer;width:100%;margin-bottom:8px;">Descargar para publicar</button>
       <p class="set-hint" style="margin:0 0 12px;">Se baja como <b>catalogo.json</b>. Este es el que va a Netlify, con ese nombre exacto.</p>
 
@@ -1109,23 +1218,23 @@
       </div>
     </div>
 
-    <div class="set-group">
-      <h4>Foto de perfil</h4>
+    <div class="set-group" id="grp-logo">
+      <h4>🖼️ Foto de perfil</h4>
       <label class="file-btn" for="logoInput">Elegir imagen</label>
       <input type="file" id="logoInput" accept="image/*" style="display:none;">
       <p class="set-hint">Se muestra redonda al lado del nombre. Cuadrada queda mejor.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Foto grande del inicio</h4>
+    <div class="set-group" id="grp-hero">
+      <h4>🖼️ Foto grande del inicio</h4>
       <label class="file-btn" for="heroInput">Elegir imagen</label>
       <input type="file" id="heroInput" accept="image/*" style="display:none;">
       <button class="set-reset" id="clearHero" style="margin-top:8px;">Quitar foto grande</button>
       <p class="set-hint">Reemplaza la huellita del centro. Podés usar la misma foto de perfil.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Textos</h4>
+    <div class="set-group" id="grp-textos">
+      <h4>✏️ Textos</h4>
       <div class="set-field">
         <label>Nombre de la tienda</label>
         <input type="text" id="inBrand">
@@ -1148,8 +1257,8 @@
       </div>
     </div>
 
-    <div class="set-group">
-      <h4>Colores</h4>
+    <div class="set-group" id="grp-colores">
+      <h4>🎨 Colores</h4>
       <div class="color-row"><input type="color" id="colForest"><span>Principal (violeta)</span></div>
       <div class="color-row"><input type="color" id="colCoral"><span>Acento (rosa)</span></div>
       <div class="color-row"><input type="color" id="colMustard"><span>Alegre (amarillo)</span></div>
@@ -1158,15 +1267,15 @@
       <p class="set-hint">Estos cinco pintan toda la tienda de una. Si querés afinar cosa por cosa, usá el bloque de abajo.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Colores detallados</h4>
+    <div class="set-group" id="grp-colores-adv">
+      <h4>🎨 Colores detallados</h4>
       <p class="set-hint">Cada cosa por separado. Los que dicen <b>Auto</b> se calculan solos a partir de los cinco de arriba. Tocá el color para fijarlo a mano, o tocá <b>Auto</b> para volver atrás.</p>
       <div id="advColors"></div>
       <button class="set-reset" id="advResetBtn" type="button">Volver todo a automático</button>
     </div>
 
-    <div class="set-group">
-      <h4>Guía de talles</h4>
+    <div class="set-group" id="grp-talles">
+      <h4>📏 Guía de talles</h4>
       <div class="set-field">
         <label>Tabla (una fila por línea, columnas separadas con | )</label>
         <textarea id="inGuiaTalles" rows="6" placeholder="Talle | Largo de lomo | Contorno de pecho&#10;S | 25 cm | 34 cm"></textarea>
@@ -1178,8 +1287,8 @@
       <p class="set-hint">La primera línea es el encabezado. El botón "Guía de talles" aparece solo en los productos que tengan talles cargados. Si borrás la tabla, el botón no se muestra.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Botón "Descargar catálogo"</h4>
+    <div class="set-group" id="grp-pdf">
+      <h4>📄 Botón "Descargar catálogo"</h4>
       <div class="set-field">
         <label>Tu propio PDF (opcional)</label>
         <input type="text" id="inPdfPropio" placeholder="catalogo.pdf">
@@ -1187,8 +1296,8 @@
       <p class="set-hint">Si dejás esto vacío, el botón arma el PDF solo con los productos de la categoría Ropita.<br>Si escribís el nombre de un archivo, el botón baja ese archivo. Tenés que ponerlo en la carpeta <b>tirokisha</b>, al lado del index.html, y subir la carpeta a Netlify.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Mensaje de WhatsApp</h4>
+    <div class="set-group" id="grp-wamsg">
+      <h4>💬 Mensaje de WhatsApp</h4>
       <div class="set-field">
         <label>Saludo (arranca el mensaje)</label>
         <input type="text" id="inSaludo" placeholder="¡Hola Tirokisha! Te dejo mi pedido 🐾">
@@ -1200,16 +1309,25 @@
       <p class="set-hint">Dejá cualquiera de los dos vacío si no lo querés. La lista de productos y el total se arman solos.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Envíos</h4>
+    <div class="set-group" id="grp-mayor">
+      <h4>📦 Venta por mayor</h4>
+      <div class="set-field">
+        <label>Mínimo de unidades por producto</label>
+        <input type="text" id="inMinMayor" inputmode="numeric" placeholder="3">
+      </div>
+      <p class="set-hint">Se aplica cuando el cliente cambia a "Por mayor" arriba del catálogo. Solo se muestran ahí los productos que tengan cargado un precio por mayor.</p>
+    </div>
+
+    <div class="set-group" id="grp-envios">
+      <h4>🚚 Envíos</h4>
       <div class="set-field">
         <label>Aviso de envío (se ve en el carrito)</label>
         <textarea id="inEnvio" rows="3" placeholder="Envío en CABA $2500. Interior por correo, a convenir. Retiro sin cargo en Once."></textarea>
       </div>
     </div>
 
-    <div class="set-group">
-      <h4>Contraseña del panel</h4>
+    <div class="set-group" id="grp-pin">
+      <h4>🔒 Contraseña del panel</h4>
       <div class="set-field">
         <label>PIN para abrir este panel</label>
         <input type="text" id="inPin" inputmode="numeric" placeholder="dejalo vacío para no usar PIN">
@@ -1217,13 +1335,18 @@
       <p class="set-hint">Con un PIN, tus clientes no pueden entrar a editar precios. Anotalo en algún lado: si lo olvidás, hay que borrar los datos del navegador.</p>
     </div>
 
-    <div class="set-group">
-      <h4>WhatsApp</h4>
+    <div class="set-group" id="grp-whatsapp">
+      <h4>📱 WhatsApp y redes sociales</h4>
       <div class="set-field">
-        <label>Número con código de país</label>
+        <label>Número de WhatsApp con código de país</label>
         <input type="text" id="inWhatsapp" placeholder="5491179023405">
       </div>
       <p class="set-hint">Argentina: 549 + código de área + número, sin el 15.</p>
+      <div class="set-field">
+        <label>Instagram (usuario o link, opcional)</label>
+        <input type="text" id="inInstagram" placeholder="@tirokisha">
+      </div>
+      <p class="set-hint">Si lo cargás, aparece un botón de Instagram al lado del de WhatsApp.</p>
     </div>
 
     <button class="set-reset" id="resetSettings">Restaurar todo</button>
@@ -1298,7 +1421,15 @@
       </label>
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;">
         <input type="checkbox" id="prodFeatured" style="width:auto;">
-        Destacar este producto
+        ★ Destacar este producto
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;">
+        <input type="checkbox" id="prodNuevo" style="width:auto;">
+        🆕 Marcar como nuevo
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;">
+        <input type="checkbox" id="prodMasVendido" style="width:auto;">
+        💥 Marcar como más vendido
       </label>
     </div>
     <div class="set-field">
@@ -1314,6 +1445,12 @@
     <div class="set-field">
       <label>Precio anterior (opcional, para ofertas)</label>
       <input type="text" id="prodPriceOld" inputmode="numeric" placeholder="dejalo vacío si no está en oferta">
+      <p class="set-hint" style="margin:5px 0 0;">Si lo cargás, se calcula solo el % de descuento y aparece el cartel de oferta.</p>
+    </div>
+    <div class="set-field">
+      <label>Texto de oferta personalizado (opcional)</label>
+      <input type="text" id="prodOfertaTexto" placeholder="Ej: 2x1, Liquidación, Último talle">
+      <p class="set-hint" style="margin:5px 0 0;">Si lo dejás vacío, se muestra el % de descuento calculado.</p>
     </div>
     <div class="set-field" id="prodPriceMayorField">
       <label>Precio por mayor (opcional)</label>
@@ -1426,6 +1563,9 @@
   <div class="pedido-sheet" id="pedidoSheet"></div>
 </section>
 
+<a class="ig-float" id="igFloat" target="_blank" rel="noopener" title="Seguinos en Instagram" style="display:none;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+</a>
 <a class="wa-float" id="waFloat" target="_blank" title="Escribinos por WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.17c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.34-.14-.19-1.17-1.56-1.17-2.98 0-1.42.74-2.11 1.01-2.4.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.37.28.14.44.12.6-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.63-.14.26.09 1.66.78 1.94.93.28.14.47.21.53.33.07.12.07.68-.17 1.36z"/></svg>
 </a>
@@ -1495,7 +1635,7 @@ let WHATSAPP_NUMBER = '5491179023405'; // Argentina: 549 + código de área + n�
 let activeCat = 'todos';
 
 /* ---------- Modo minorista / mayorista ---------- */
-const MIN_MAYOR = 3; // mínimo de unidades por producto en modo mayorista
+let MIN_MAYOR = 3; // mínimo de unidades por producto en modo mayorista (se puede editar en el panel)
 let mode = localStorage.getItem('tirokisha_mode') || 'menor';
 
 let carts = JSON.parse(localStorage.getItem('tirokisha_carts') || 'null');
@@ -1544,9 +1684,16 @@ function norm(t){
   return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
 
+// Filtros rápidos (ofertas / destacados / nuevos), independientes de la categoría.
+let quickFilter = null;
+
 function visibleProducts(){
   let base = mode==='mayor' ? PRODUCTS.filter(hasMayor) : PRODUCTS.slice();
   if(activeCat!=='todos') base = base.filter(p=>catsOf(p).includes(activeCat));
+
+  if(quickFilter==='oferta')    base = base.filter(p=>ofertaLabel(p));
+  if(quickFilter==='destacado') base = base.filter(p=>p.featured);
+  if(quickFilter==='nuevo')     base = base.filter(p=>p.nuevo);
 
   if(searchTerm){
     const q = norm(searchTerm);
@@ -1653,6 +1800,24 @@ function precioViejo(p){
   return old;
 }
 
+// Texto del cartel de oferta: el que escribió el admin, o si no el % calculado.
+function ofertaLabel(p){
+  const old = precioViejo(p);
+  if(old == null) return null;
+  if(p.ofertaTexto) return p.ofertaTexto;
+  const pct = Math.round((1 - Number(p.price)/old) * 100);
+  return pct > 0 ? `${pct}% OFF` : 'Oferta';
+}
+
+// Las tres etiquetas apilables (destacado / nuevo / más vendido) de una tarjeta.
+function productBadges(p){
+  const list = [];
+  if(p.featured) list.push({cls:'b-fav', text:'★ Destacado'});
+  if(p.nuevo) list.push({cls:'b-new', text:'🆕 Nuevo'});
+  if(p.masVendido) list.push({cls:'b-hot', text:'💥 Más vendido'});
+  return list;
+}
+
 function priceLabel(p){
   if(p.variants && p.variants.length){
     const prices = p.variants.map(v=>unitPrice(p, v.name)).filter(x=>x!=null);
@@ -1708,9 +1873,9 @@ function renderGrid(){
       <div class="card-media" data-detail="${p.id}">
         ${mediaHTML(p)}
         <span class="card-tag">${catLabels(p).join(' · ')}</span>
-        ${p.featured && !out ? `<span class="fav-tag">★ Destacado</span>` : ''}
+        ${(!out && productBadges(p).length) ? `<div class="badge-stack">${productBadges(p).map(b=>`<span class="tag-badge ${b.cls}">${b.text}</span>`).join('')}</div>` : ''}
         ${out ? `<div class="out-tag">Sin stock</div>` : ''}
-        ${(!out && precioViejo(p)) ? `<span class="sale-tag">Oferta</span>` : ''}
+        ${(!out && ofertaLabel(p)) ? `<span class="sale-tag">🔥 ${escaparHtml(ofertaLabel(p))}</span>` : ''}
         ${pocoStock(p) ? `<span class="low-tag">¡Quedan pocas!</span>` : ''}
         ${(p.imgs && p.imgs.length>1) ? `<span class="gal-count">${p.imgs.length} fotos</span>` : ''}
       </div>
@@ -2298,7 +2463,13 @@ const DEFAULTS = {
   colMustard: '#FFC53D',
   colTurq: '#17BEBB',
   colCream: '#FFF0F5',
-  adv: {}
+  adv: {},
+  bannerOn: false,
+  bannerTexto: '',
+  bannerSub: '',
+  bannerLink: '',
+  instagram: '',
+  minMayor: 3
 };
 
 /* Colores detallados. value(s) calcula el automático a partir de los 5 base. */
@@ -2380,6 +2551,31 @@ function applySettings(){
         <circle cx="122" cy="50" r="16.5" fill="currentColor"/>
       </svg>`;
   document.getElementById('heroSlot').style.color = settings.colForest;
+
+  MIN_MAYOR = Number(settings.minMayor) > 0 ? Number(settings.minMayor) : 3;
+
+  const banner = document.getElementById('promoBanner');
+  const bannerTexto = (settings.bannerTexto || '').trim();
+  if(settings.bannerOn && bannerTexto){
+    document.getElementById('promoText').textContent = bannerTexto;
+    document.getElementById('promoSub').textContent = settings.bannerSub || '';
+    const link = (settings.bannerLink || '').trim();
+    if(link){ banner.href = link; banner.style.cursor = 'pointer'; }
+    else{ banner.removeAttribute('href'); banner.style.cursor = 'default'; }
+    banner.style.display = 'flex';
+  }else{
+    banner.style.display = 'none';
+  }
+
+  const ig = document.getElementById('igFloat');
+  const igHandle = (settings.instagram || '').trim();
+  if(igHandle){
+    const url = igHandle.startsWith('http') ? igHandle : `https://instagram.com/${igHandle.replace(/^@/,'')}`;
+    ig.setAttribute('href', url);
+    ig.style.display = 'flex';
+  }else{
+    ig.style.display = 'none';
+  }
 }
 
 function saveSettings(){
@@ -2411,6 +2607,12 @@ function fillSettingsForm(){
   document.getElementById('colMustard').value = settings.colMustard;
   document.getElementById('colTurq').value = settings.colTurq;
   document.getElementById('colCream').value = settings.colCream;
+  document.getElementById('inBannerOn').checked = !!settings.bannerOn;
+  document.getElementById('inBannerTexto').value = settings.bannerTexto || '';
+  document.getElementById('inBannerSub').value = settings.bannerSub || '';
+  document.getElementById('inBannerLink').value = settings.bannerLink || '';
+  document.getElementById('inInstagram').value = settings.instagram || '';
+  document.getElementById('inMinMayor').value = settings.minMayor ?? DEFAULTS.minMayor;
   renderAdvColors();
 }
 
@@ -2456,7 +2658,9 @@ const fieldMap = {
   inSaludo:'saludo', inCierre:'cierre', inPdfPropio:'pdfPropio',
   inGuiaTalles:'guiaTalles', inGuiaNota:'guiaNota',
   colForest:'colForest', colCoral:'colCoral', colMustard:'colMustard',
-  colTurq:'colTurq', colCream:'colCream'
+  colTurq:'colTurq', colCream:'colCream',
+  inBannerTexto:'bannerTexto', inBannerSub:'bannerSub', inBannerLink:'bannerLink',
+  inInstagram:'instagram', inMinMayor:'minMayor'
 };
 Object.keys(fieldMap).forEach(elId=>{
   document.getElementById(elId).addEventListener('input', e=>{
@@ -2464,6 +2668,11 @@ Object.keys(fieldMap).forEach(elId=>{
     saveSettings();
     if(elId.startsWith('col')) renderAdvColors();
   });
+});
+
+document.getElementById('inBannerOn').addEventListener('change', e=>{
+  settings.bannerOn = e.target.checked;
+  saveSettings();
 });
 
 document.getElementById('logoInput').addEventListener('change', e=>{
@@ -2497,6 +2706,24 @@ function abrirPanel(){
   document.getElementById('settings').classList.add('open');
   document.getElementById('overlay').classList.add('open');
 }
+
+// Índice rápido arriba del panel: uno por cada sección (.set-group con id),
+// para no tener que scrollear buscando dónde está cada cosa.
+function buildSettingsIndex(){
+  const nav = document.getElementById('settingsIndex');
+  const groups = document.querySelectorAll('.settings-body > .set-group[id]');
+  nav.innerHTML = Array.from(groups).map(g=>{
+    const label = g.querySelector('h4')?.textContent || g.id;
+    return `<a href="#" data-goto="${g.id}">${label}</a>`;
+  }).join('');
+  nav.querySelectorAll('[data-goto]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      document.getElementById(a.dataset.goto)?.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+buildSettingsIndex();
 
 function verificarPin(){
   const val = document.getElementById('pinInput').value;
@@ -2707,9 +2934,12 @@ function openProductModal(id){
   document.getElementById('prodDesc').value = p ? (p.desc || '') : '';
   document.getElementById('prodStock').checked = p ? (p.stock !== false) : true;
   document.getElementById('prodFeatured').checked = p ? !!p.featured : false;
+  document.getElementById('prodNuevo').checked = p ? !!p.nuevo : false;
+  document.getElementById('prodMasVendido').checked = p ? !!p.masVendido : false;
   document.getElementById('prodPrice').value = p ? (p.price ?? '') : '';
   document.getElementById('prodPriceMayor').value = p ? (p.priceMayor ?? '') : '';
   document.getElementById('prodPriceOld').value = p ? (p.priceOld ?? '') : '';
+  document.getElementById('prodOfertaTexto').value = p ? (p.ofertaTexto || '') : '';
   document.getElementById('prodLowStock').checked = p ? !!p.lowStock : false;
   draftImgs = p ? (p.imgs && p.imgs.length ? p.imgs.slice() : (p.img ? [p.img] : [])) : [];
   draftImg = draftImgs[0] || null;
@@ -2870,7 +3100,10 @@ document.getElementById('prodSave').addEventListener('click', ()=>{
     desc: document.getElementById('prodDesc').value.trim(),
     stock: document.getElementById('prodStock').checked,
     lowStock: document.getElementById('prodLowStock').checked,
-    featured: document.getElementById('prodFeatured').checked
+    featured: document.getElementById('prodFeatured').checked,
+    nuevo: document.getElementById('prodNuevo').checked,
+    masVendido: document.getElementById('prodMasVendido').checked,
+    ofertaTexto: document.getElementById('prodOfertaTexto').value.trim()
   };
 
   if(editingProductId){
@@ -3162,10 +3395,51 @@ document.getElementById('detailAdd').addEventListener('click', ()=>{
 document.getElementById('searchInput').addEventListener('input', e=>{
   searchTerm = e.target.value;
   renderGrid();
+  renderSearchSuggest();
 });
+document.getElementById('searchInput').addEventListener('focus', renderSearchSuggest);
 document.getElementById('sortSelect').addEventListener('change', e=>{
   sortBy = e.target.value;
   renderGrid();
+});
+
+// Sugerencias mientras se escribe: hasta 6 productos que coincidan por nombre o categoría.
+function renderSearchSuggest(){
+  const box = document.getElementById('searchSuggest');
+  const q = norm(searchTerm);
+  if(!q){ box.classList.remove('open'); box.innerHTML=''; return; }
+  const matches = PRODUCTS.filter(p=>
+    norm(p.name).includes(q) || catLabels(p).some(l=>norm(l).includes(q))
+  ).slice(0, 6);
+  if(!matches.length){ box.classList.remove('open'); box.innerHTML=''; return; }
+  box.innerHTML = matches.map(p=>
+    `<button type="button" data-sg="${p.id}">${escaparHtml(p.name)} <small>· ${escaparHtml(catLabels(p)[0]||'')}</small></button>`
+  ).join('');
+  box.querySelectorAll('[data-sg]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      box.classList.remove('open');
+      document.getElementById('searchInput').value = '';
+      searchTerm = '';
+      renderGrid();
+      openDetail(Number(btn.dataset.sg));
+    });
+  });
+  box.classList.add('open');
+}
+document.addEventListener('click', e=>{
+  const box = document.getElementById('searchSuggest');
+  if(!box.contains(e.target) && e.target.id!=='searchInput') box.classList.remove('open');
+});
+
+// Filtros rápidos: ofertas / destacados / nuevos. Tocar el que ya está activo lo apaga.
+document.querySelectorAll('.quick-filter').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const val = btn.dataset.qf;
+    quickFilter = (quickFilter === val) ? null : val;
+    document.querySelectorAll('.quick-filter').forEach(b=>
+      b.classList.toggle('on', b.dataset.qf === quickFilter));
+    renderGrid();
+  });
 });
 
 /* ---- WhatsApp: armado y apertura del link ---- */
