@@ -19,6 +19,8 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Todo lo que tu mascota necesita. Armá tu pedido y lo recibís por WhatsApp en un momento.">
+<meta name="theme-color" content="#7B3FF2">
+<link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%237B3FF2'/%3E%3Cpath d='M12 14.5c-3.2 0-6 2.1-6 4.8 0 1 .8 1.7 1.9 1.5 1.2-.2 2.6-.6 4.1-.6s2.9.4 4.1.6c1.1.2 1.9-.5 1.9-1.5 0-2.7-2.8-4.8-6-4.8z' fill='white'/%3E%3Ccircle cx='6.5' cy='9.5' r='2.2' fill='white'/%3E%3Ccircle cx='17.5' cy='9.5' r='2.2' fill='white'/%3E%3Ccircle cx='9.5' cy='6' r='2' fill='white'/%3E%3Ccircle cx='14.5' cy='6' r='2' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -1596,9 +1598,16 @@ function setMode(newMode){
 
 const pawSVG = `<svg viewBox="0 0 100 100" width="46%" fill="none"><path d="M50 59c-13 0-24.5 8.5-24.5 19.5 0 4 3.2 7 7.7 6.1 4.8-1 10.5-2.5 16.8-2.5s12 1.5 16.8 2.5c4.5.9 7.7-2.1 7.7-6.1C74.5 67.5 63 59 50 59z" fill="white" fill-opacity="0.85"/><circle cx="26.5" cy="38.5" r="9" fill="white" fill-opacity="0.85"/><circle cx="73.5" cy="38.5" r="9" fill="white" fill-opacity="0.85"/><circle cx="39" cy="25" r="8.2" fill="white" fill-opacity="0.85"/><circle cx="61" cy="25" r="8.2" fill="white" fill-opacity="0.85"/></svg>`;
 
+// Si la foto de un producto no carga (link roto, archivo borrado), muestra la huellita en su lugar.
+function mediaImgError(img){
+  const box = img.closest('.card-media, #detailMedia');
+  if(box) box.style.background = img.dataset.fallbackColor || '';
+  img.outerHTML = pawSVG;
+}
+
 function mediaHTML(p){
   if(p.img){
-    return `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`;
+    return `<img src="${p.img}" alt="${escaparHtml(p.name)}" loading="lazy" decoding="async" data-fallback-color="${p.color}" style="width:100%;height:100%;object-fit:cover;" onerror="mediaImgError(this)">`;
   }
   return `<div style="width:100%;height:100%;background:${p.color};display:flex;align-items:center;justify-content:center;">${pawSVG}</div>`;
 }
@@ -1706,9 +1715,9 @@ function renderGrid(){
         ${(p.imgs && p.imgs.length>1) ? `<span class="gal-count">${p.imgs.length} fotos</span>` : ''}
       </div>
       <div class="card-body">
-        <div class="card-name">${p.name}</div>
+        <div class="card-name">${escaparHtml(p.name)}</div>
         <div class="card-price" data-price-for="${p.id}">${priceLabel(p)}${precioViejo(p) ? `<span class="price-old">$ ${precioViejo(p)}</span>` : ''}</div>
-        ${p.desc ? `<div class="card-desc">${p.desc}</div>` : ''}
+        ${p.desc ? `<div class="card-desc">${escaparHtml(p.desc)}</div>` : ''}
         ${mode==='mayor' && !out ? `<div class="card-min">Mínimo ${MIN_MAYOR} unidades</div>` : ''}
         ${out ? '' : variantUI}
         <button class="card-add" data-id="${p.id}" ${out?'disabled':''}>
@@ -2315,6 +2324,8 @@ function advValue(k){
 }
 
 const DEFAULT_LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 14.5c-3.2 0-6 2.1-6 4.8 0 1 .8 1.7 1.9 1.5 1.2-.2 2.6-.6 4.1-.6s2.9.4 4.1.6c1.1.2 1.9-.5 1.9-1.5 0-2.7-2.8-4.8-6-4.8z" fill="currentColor"/><circle cx="6.5" cy="9.5" r="2.2" fill="currentColor"/><circle cx="17.5" cy="9.5" r="2.2" fill="currentColor"/><circle cx="9.5" cy="6" r="2" fill="currentColor"/><circle cx="14.5" cy="6" r="2" fill="currentColor"/></svg>`;
+// Guarda el favicon original (la huellita) para poder volver a él si se borra el logo propio.
+const DEFAULT_FAVICON_HREF = document.getElementById('favicon').getAttribute('href');
 
 let settings = Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem('tirokisha_settings') || '{}'));
 settings.adv = Object.assign({}, settings.adv);
@@ -2354,6 +2365,10 @@ function applySettings(){
   document.getElementById('logoSlot').innerHTML = settings.logo
     ? `<img src="${settings.logo}" alt="${settings.brand}">`
     : DEFAULT_LOGO_SVG;
+
+  const favicon = document.getElementById('favicon');
+  if(settings.logo) favicon.setAttribute('href', settings.logo);
+  else favicon.setAttribute('href', DEFAULT_FAVICON_HREF);
 
   document.getElementById('heroSlot').innerHTML = settings.hero
     ? `<img src="${settings.hero}" alt="${settings.brand}">`
@@ -2564,7 +2579,7 @@ function renderAdmProducts(){
         ${p.img?`<img src="${p.img}" alt="">`:''}
       </div>
       <div class="adm-info">
-        <div class="adm-name">${p.name}</div>
+        <div class="adm-name">${escaparHtml(p.name)}</div>
         <div class="adm-meta">${priceLabel(p)} · ${catLabels(p).join(', ') || 'sin categoría'}${(p.variants&&p.variants.length)?` · ${p.variants.length} ${p.variantLabel||'opciones'}`:''}${hasMayor(p)?' · por mayor ✓':''}${p.featured?' · ★':''}${p.stock===false?' · SIN STOCK':(pocoStock(p)?' · queda poco':'')}</div>
       </div>
       <button class="adm-act" data-edit="${p.id}">Editar</button>
@@ -2974,14 +2989,14 @@ function openDetail(id){
   const media = document.getElementById('detailMedia');
   media.style.background = imgs.length ? 'transparent' : p.color;
   media.innerHTML = imgs.length
-    ? `<img src="${imgs[0]}" alt="${p.name}" id="detailMainImg">`
+    ? `<img src="${imgs[0]}" alt="${escaparHtml(p.name)}" id="detailMainImg" data-fallback-color="${p.color}" onerror="mediaImgError(this)">`
     : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${pawSVG}</div>`;
 
   const thumbs = document.getElementById('detailThumbs');
   if(imgs.length > 1){
     thumbs.style.display = 'flex';
     thumbs.innerHTML = imgs.map((src,i)=>
-      `<button class="gal-thumb ${i===0?'sel':''}" data-di="${i}"><img src="${src}" alt=""></button>`
+      `<button class="gal-thumb ${i===0?'sel':''}" data-di="${i}"><img src="${src}" alt="" loading="lazy" decoding="async"></button>`
     ).join('');
     thumbs.querySelectorAll('[data-di]').forEach(b=>{
       b.addEventListener('click', ()=>{
@@ -3084,7 +3099,9 @@ document.getElementById('detailShare').addEventListener('click', async ()=>{
 /* ---- Guía de talles ---- */
 
 function escaparHtml(t){
-  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(t ?? '').replace(/[&<>"']/g, c=>({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
 }
 
 function textoGuia(){
