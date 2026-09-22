@@ -1,0 +1,1091 @@
+{
+  "version": 1,
+  "fecha": "2026-09-21T20:42:52.581Z",
+  "categorias": [
+    {
+      "id": "todos",
+      "label": "Todos"
+    },
+    {
+      "id": "perros",
+      "label": "ROPAS IMPORTADAS (Perro-Gato-Conejo)"
+    },
+    {
+      "id": "gatos",
+      "label": "Shampoo"
+    },
+    {
+      "id": "ropita",
+      "label": "Productos Desparacitarios"
+    },
+    {
+      "id": "juguetes",
+      "label": "Higuiene"
+    },
+    {
+      "id": "accesorios",
+      "label": "Accesorios"
+    },
+    {
+      "id": "camitas",
+      "label": "Juguetes"
+    },
+    {
+      "id": "higuiene",
+      "label": "Camas y Cuchetas"
+    },
+    {
+      "id": "portales-correas-y-pretales",
+      "label": "Portales, Correas y Pretales"
+    },
+    {
+      "id": "osprey",
+      "label": "Osprey"
+    }
+  ],
+  "productos": [
+    {
+      "id": 1,
+      "name": "Snupi 4 patas enteriso",
+      "desc": "Polar frizado por dentro, ideal para el otoño Talles del 1 al 6",
+      "featured": true,
+      "stock": true,
+      "price": 7000,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "color": "#FFC53D",
+      "img": null,
+      "variantLabel": "Snupy",
+      "variants": [
+        {
+          "name": "Talle 00",
+          "price": 7000,
+          "priceMayor": 5500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 0",
+          "price": 9000,
+          "priceMayor": 6500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 6",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": true,
+          "low": false
+        }
+      ],
+      "priceOld": null,
+      "cat": "perros",
+      "imgs": [],
+      "lowStock": false
+    },
+    {
+      "id": 2,
+      "name": "Capibara polar",
+      "desc": "Goma resistente, rebota alto. Para perros medianos y grandes.",
+      "stock": true,
+      "price": 12500,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "color": "#FF4785",
+      "img": null,
+      "priceOld": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": true,
+          "low": false
+        }
+      ],
+      "variantLabel": "Capibara polar",
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 3,
+      "name": "Sullivan 4 patas",
+      "price": 12500,
+      "cats": [
+        "perros"
+      ],
+      "color": "#17BEBB",
+      "img": null,
+      "priceOld": null,
+      "priceMayor": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": false
+        }
+      ],
+      "variantLabel": "Sullivan modelo 4 patas",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 4,
+      "name": "Sullivan modelo de 2 patas",
+      "desc": "Disfraz del personaje de la icónica película mosnter inc",
+      "featured": true,
+      "stock": true,
+      "price": 12500,
+      "cats": [
+        "perros"
+      ],
+      "color": "#7B3FF2",
+      "img": null,
+      "priceOld": null,
+      "priceMayor": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": false
+        }
+      ],
+      "variantLabel": "Talle",
+      "lowStock": false
+    },
+    {
+      "id": 5,
+      "name": "Bruja polar",
+      "desc": "Ropitas polar color negro y rosado",
+      "stock": true,
+      "price": 12500,
+      "cats": [
+        "perros"
+      ],
+      "color": "#FF4785",
+      "img": null,
+      "priceOld": null,
+      "priceMayor": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": false
+        }
+      ],
+      "variantLabel": "Talle",
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 6,
+      "name": "Bob esponja",
+      "price": 12500,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "color": "#FF4785",
+      "img": null,
+      "priceOld": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": true
+        }
+      ],
+      "variantLabel": "Bob esponja",
+      "desc": "Detallado , es corderito polar",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 7,
+      "name": "Capitan américa modelo 2 patas",
+      "price": 12500,
+      "cats": [
+        "perros"
+      ],
+      "color": "#17BEBB",
+      "img": null,
+      "priceOld": null,
+      "priceMayor": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": false
+        }
+      ],
+      "variantLabel": "Capitan américa modelo 2 patas",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 8,
+      "name": "Capitan américa modelo 4 patas",
+      "desc": "Buen material",
+      "stock": true,
+      "price": 12500,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "color": "#FF4785",
+      "img": null,
+      "variantLabel": "Capitan américa modelo 4 patas",
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": false
+        }
+      ],
+      "priceOld": null,
+      "cat": "perros",
+      "imgs": [],
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 9,
+      "name": "Stich ROSA - AZUL",
+      "price": 12500,
+      "cats": [
+        "perros"
+      ],
+      "color": "#17BEBB",
+      "img": null,
+      "priceOld": null,
+      "priceMayor": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": false
+        }
+      ],
+      "variantLabel": "Stich ROSA - AZUL",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 10,
+      "name": "León modelo 4 patas",
+      "price": 12500,
+      "cats": [
+        "perros"
+      ],
+      "color": "#7B3FF2",
+      "img": null,
+      "priceOld": null,
+      "priceMayor": null,
+      "cat": "perros",
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": true,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": true,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": true,
+          "low": false
+        }
+      ],
+      "variantLabel": "León modelo 4 patas",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 11,
+      "name": "León modelo 2 patas",
+      "price": 12500,
+      "priceOld": null,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "cat": "perros",
+      "color": "#7B3FF2",
+      "img": null,
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 0",
+          "price": 12500,
+          "priceMayor": 7500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 1",
+          "price": 14500,
+          "priceMayor": 8500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 2",
+          "price": 16500,
+          "priceMayor": 9500,
+          "out": true,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 18500,
+          "priceMayor": 10500,
+          "out": true,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": true,
+          "low": false
+        }
+      ],
+      "variantLabel": "León modelo 2 patas",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 12,
+      "name": "Vestido unicornio",
+      "price": 20500,
+      "priceOld": null,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "cat": "perros",
+      "color": "#FF4785",
+      "img": null,
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 4",
+          "price": 20500,
+          "priceMayor": 11500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 5",
+          "price": 22500,
+          "priceMayor": 12500,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 6",
+          "price": 24500,
+          "priceMayor": 13500,
+          "out": false,
+          "low": true
+        }
+      ],
+      "variantLabel": "Vestido unicornio",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 13,
+      "name": "Vestido verano con gean",
+      "price": 10000,
+      "priceOld": null,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "cat": "perros",
+      "color": "#FFC53D",
+      "img": null,
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 1",
+          "price": 10000,
+          "priceMayor": 7000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 12000,
+          "priceMayor": 8000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 13000,
+          "priceMayor": 9000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 14000,
+          "priceMayor": 10000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 15000,
+          "priceMayor": 11000,
+          "out": false,
+          "low": true
+        },
+        {
+          "name": "Talle 6",
+          "price": 16000,
+          "priceMayor": 12000,
+          "out": true,
+          "low": false
+        }
+      ],
+      "variantLabel": "Vestido gean",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 14,
+      "name": "Vestido fosforescente floreada",
+      "price": 10000,
+      "priceOld": null,
+      "priceMayor": null,
+      "cats": [
+        "perros"
+      ],
+      "cat": "perros",
+      "color": "#FF4785",
+      "img": null,
+      "imgs": [],
+      "variants": [
+        {
+          "name": "Talle 1",
+          "price": 10000,
+          "priceMayor": 7000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 2",
+          "price": 12000,
+          "priceMayor": 8000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 3",
+          "price": 13000,
+          "priceMayor": 9000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 4",
+          "price": 14000,
+          "priceMayor": 10000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 5",
+          "price": 15000,
+          "priceMayor": 11000,
+          "out": false,
+          "low": false
+        },
+        {
+          "name": "Talle 6",
+          "price": 16000,
+          "priceMayor": 12000,
+          "out": false,
+          "low": false
+        }
+      ],
+      "variantLabel": "Vestido fosforescente floreado",
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 15,
+      "name": "Osspret GATO",
+      "price": 10000,
+      "priceOld": null,
+      "priceMayor": 8500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#7B3FF2",
+      "img": null,
+      "imgs": [],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 16,
+      "name": "Osspret TRADICIONAL",
+      "price": 10000,
+      "priceOld": null,
+      "priceMayor": 8500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#5B1FC7",
+      "img": "fotos/osspret-tradicional.jpg",
+      "imgs": [
+        "fotos/osspret-tradicional.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "Pulguicida y garrapaticida",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 17,
+      "name": "Osspret  Sh. POTENCIADO 250ml",
+      "price": 11000,
+      "priceOld": null,
+      "priceMayor": 9500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#17BEBB",
+      "img": "fotos/osspret-potenciado.jpg",
+      "imgs": [
+        "fotos/osspret-potenciado.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 18,
+      "name": "Enjuague Osspret EXTRA BRILLO PELUQUEROS EXPERTO",
+      "price": 12500,
+      "priceOld": null,
+      "priceMayor": 10000,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#17BEBB",
+      "img": null,
+      "imgs": [],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "Shampoo de 250ml \n1 litro (24.500)\n5 litros (85.000)",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 19,
+      "name": "Osspret ENJUAGUE OMEGA CHOCOLATE 250g",
+      "price": 12500,
+      "priceOld": null,
+      "priceMayor": 10500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#17BEBB",
+      "img": null,
+      "imgs": [],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 20,
+      "name": "ENJUAGUE OSSPRET REACONDICIONADOR ESPECIAL LACIO",
+      "price": 12000,
+      "priceOld": null,
+      "priceMayor": 10000,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#7B3FF2",
+      "img": null,
+      "imgs": [],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "250g (12.000)\n1 litro (24.000)\n5 litros (82.00)",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 21,
+      "name": "ENJUAGUE OSSPRET REACONDICIONADOR MAYOR VOLUMEN",
+      "price": 12000,
+      "priceOld": null,
+      "priceMayor": 10000,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#E22C6B",
+      "img": null,
+      "imgs": [],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "250g (12.000)\n1 litro ( 24.000)\n5 litros (82.000)",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 22,
+      "name": "SHAMPOO OSSPRET AMITRAZ",
+      "price": 10400,
+      "priceOld": null,
+      "priceMayor": 8400,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#E22C6B",
+      "img": null,
+      "imgs": [],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "250g (10.400)\n5 litros (66.700)",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    }
+  ],
+  "ajustes": {
+    "brand": "Tirokisha",
+    "eyebrow": "Hecho con cariño para tu mascota",
+    "title": "CALIDAD, VARIEDAD Y <em>LOS MEJORES PRECIOS</em> ",
+    "subtitle": "Todo lo que tú mascota necesita, armá tu pedido y lo recibís por WhatsApp en un momento.",
+    "footer": "Tirokisha — PENSANDO EN NUESTROS CLIENTES 🐾",
+    "whatsapp": "5491179023405",
+    "logo": null,
+    "hero": null,
+    "envio": "Envíos por las sucursales (a elección), recomendadas:\n-Correo argentino\n-Via cargo \n- Express\n-\n-Reparto en estaciones de trenes o Subtes \n- Encomiendas por Buses de Salada\n",
+    "pin": "",
+    "saludo": "¡Hola Tirokisha! Te dejo mi pedido 🐾",
+    "cierre": "¿Me confirmás disponibilidad y cómo seguimos con el pedido?",
+    "pdfPropio": "",
+    "guiaTalles": "Talle | Largo de lomo | Contorno de pecho\n1             | 20 cm                       | 28 cm\n2             | 25 cm                      | 34 cm\n3             | 30 cm                      | 40 cm\n4             | 35 cm                      | 46 cm\n5             | 40 cm                      | 52 cm\n6             | 45 cm                      | 58 cm\n7             | 50 cm                      | 64 cm\n8             | 55 cm                      | 70 cm\n9             | 60 cm                      | 76 cm\n10            | 65 cm                      | 82 cm\n11             | 70 cm                      | 88 cm\n12            | 75 cm                      | 94 cm",
+    "guiaNota": "Medí a tu mascota desde la base del cuello hasta el nacimiento de la cola. Ante la duda, elegí el talle más grande.",
+    "colForest": "#870071",
+    "colCoral": "#b374af",
+    "colMustard": "#FFC53D",
+    "colTurq": "#17BEBB",
+    "colCream": "#facfff",
+    "adv": {
+      "btnText": "#eb86e1",
+      "tagText": "#de6dda",
+      "footerText": "#ff00ff",
+      "inkSoft": "#db53d9",
+      "ink": "#cf0078",
+      "headerBg": "#e69ed7",
+      "price": "#ff00ff",
+      "surface": "#f0c7ee"
+    }
+  }
+}
