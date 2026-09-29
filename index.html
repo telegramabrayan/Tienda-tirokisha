@@ -874,33 +874,89 @@
     animation:floatUp 4s ease-in-out infinite;
   }
 
-  /* ---------- Category nav ---------- */
+  /* ---------- Category nav: botón que abre el menú de rubros ---------- */
   .cat-nav{
     max-width:1180px; margin:0 auto;
     padding:0 24px 10px;
-    display:flex; gap:10px; flex-wrap:wrap;
   }
-  .cat-pill{
-    padding:10px 18px;
-    border-radius:999px;
-    border:1.5px solid var(--line);
-    background:white;
-    font-weight:600;
-    font-size:14.5px;
-    color:var(--ink-soft);
-    transition:all .15s ease;
-    white-space:nowrap;
+  .cats-trigger{
+    width:100%; display:flex; align-items:center; gap:10px;
+    padding:13px 18px; border-radius:999px;
+    border:1.5px solid var(--line); background:white;
+    font-weight:600; font-size:14.5px; color:var(--ink);
+    text-align:left;
   }
-  .cat-pill.active, .cat-pill:hover{
-    background:var(--forest);
-    color:var(--cream);
-    border-color:var(--forest);
+  .cats-trigger:hover{border-color:var(--forest);}
+  .cats-trigger svg{width:18px;height:18px;flex-shrink:0;color:var(--forest);}
+  .cats-trigger .ct-label{flex:1; color:var(--ink-soft);}
+  .cats-trigger .ct-label b{color:var(--ink); font-weight:700;}
+  .cats-trigger .ct-chev{width:14px;height:14px;color:var(--ink-soft);flex-shrink:0;}
+
+  /* ---------- Panel de rubros (menú desplegable tipo acordeón) ---------- */
+  .cats-panel{
+    position:fixed; top:0; left:0; height:100%;
+    width:min(360px, 100%);
+    background:#161C2E;
+    color:#E7E9F2;
+    z-index:51;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    display:flex; flex-direction:column;
+    box-shadow:10px 0 30px rgba(0,0,0,0.25);
+    font-family:'Inter', sans-serif;
   }
-  .cat-pill[data-cat="perros"].active{background:var(--forest); border-color:var(--forest);}
-  .cat-pill[data-cat="gatos"].active{background:var(--coral); border-color:var(--coral);}
-  .cat-pill[data-cat="ropita"].active{background:var(--mustard); color:var(--ink); border-color:var(--mustard);}
-  .cat-pill[data-cat="juguetes"].active{background:var(--turquoise); border-color:var(--turquoise);}
-  .cat-pill[data-cat="accesorios"].active{background:var(--forest-deep); border-color:var(--forest-deep);}
+  .cats-panel.open{transform:translateX(0);}
+  .cats-panel-head{
+    padding:20px 22px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .cats-panel-head h3{
+    font-family:'Fredoka', sans-serif; font-size:20px; font-weight:600;
+    color:#FFFFFF; letter-spacing:0.5px;
+  }
+  .cats-panel-close{
+    background:transparent; font-size:24px; color:#9AA0B4;
+    width:34px; height:34px; border-radius:999px;
+  }
+  .cats-panel-close:hover{background:rgba(255,255,255,0.08); color:#FFFFFF;}
+  .cats-panel-body{flex:1; overflow-y:auto; padding:10px 10px 24px;}
+
+  .cats-all{
+    display:block; width:100%; text-align:left;
+    padding:13px 16px; margin-bottom:6px;
+    border-radius:12px; font-weight:700; font-size:15px;
+    color:#E7E9F2; background:transparent;
+  }
+  .cats-all:hover{background:rgba(255,255,255,0.06);}
+  .cats-all.active{background:var(--forest); color:#FFFFFF;}
+
+  .cats-group{margin-bottom:2px;}
+  .cats-group-head{
+    display:flex; align-items:center; gap:10px; width:100%;
+    padding:13px 16px; text-align:left;
+    font-size:15.5px; font-weight:700; letter-spacing:0.3px;
+    color:#FFFFFF; background:transparent; border-radius:12px;
+  }
+  .cats-group-head:hover{background:rgba(255,255,255,0.06);}
+  .cats-group-head .gh-chev{
+    width:15px;height:15px; color:#8B92AC; flex-shrink:0;
+    transition:transform .2s ease;
+  }
+  .cats-group.open .cats-group-head .gh-chev{transform:rotate(90deg);}
+  .cats-group-items{
+    display:none; padding:2px 6px 10px 20px;
+  }
+  .cats-group.open .cats-group-items{display:block;}
+  .cats-item{
+    display:flex; align-items:center; gap:9px; width:100%;
+    text-align:left; padding:10px 14px;
+    border-radius:10px; font-size:14.5px; color:#C3C7D9;
+  }
+  .cats-item::before{content:'—'; color:#565D78; font-size:13px;}
+  .cats-item:hover{background:rgba(255,255,255,0.06); color:#FFFFFF;}
+  .cats-item.active{background:var(--coral); color:#FFFFFF; font-weight:600;}
+  .cats-item.active::before{color:rgba(255,255,255,0.7);}
 
   /* ---------- Products ---------- */
   .catalog{
@@ -1120,7 +1176,13 @@
   <span class="mode-note" id="modeNote">Comprá la cantidad que quieras.</span>
 </div>
 
-<nav class="cat-nav" id="categorias"></nav>
+<nav class="cat-nav" id="categorias">
+  <button class="cats-trigger" id="openCatsPanel" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
+    <span class="ct-label">Categoría: <b id="ctLabel">Todos</b></span>
+    <svg class="ct-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</nav>
 
 <main class="catalog" id="catalogo">
   <div class="catalog-head">
@@ -1151,6 +1213,14 @@
 </main>
 
 <div class="overlay" id="overlay"></div>
+
+<aside class="cats-panel" id="catsPanel">
+  <div class="cats-panel-head">
+    <h3>Categorías</h3>
+    <button class="cats-panel-close" id="closeCatsPanel">&times;</button>
+  </div>
+  <div class="cats-panel-body" id="catsPanelBody"></div>
+</aside>
 
 <aside class="settings" id="settings">
   <div class="drawer-head">
@@ -1512,6 +1582,12 @@
       <label>Nombre de la categoría</label>
       <input type="text" id="catLabel" placeholder="Camitas">
     </div>
+    <div class="set-field">
+      <label>Grupo (opcional)</label>
+      <input type="text" id="catGroup" placeholder="Perros y Gatos" list="catGroupList">
+      <datalist id="catGroupList"></datalist>
+      <p class="set-hint" style="margin:5px 0 0;">Las categorías con el mismo grupo aparecen juntas, dentro de un desplegable, en el menú de categorías. Dejalo vacío para que quede suelta.</p>
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" data-close-modal>Cancelar</button>
       <button class="btn-save" id="catSave">Guardar</button>
@@ -1584,11 +1660,11 @@
    ========================================================= */
 const DEFAULT_CATEGORIES = [
   { id: 'todos',    label: 'Todos' },
-  { id: 'perros',   label: 'Perros' },
-  { id: 'gatos',    label: 'Gatos' },
-  { id: 'ropita',   label: 'Ropita' },
-  { id: 'juguetes', label: 'Juguetes' },
-  { id: 'accesorios', label: 'Accesorios' },
+  { id: 'perros',   label: 'Perros',   group: 'Perros y Gatos' },
+  { id: 'gatos',    label: 'Gatos',    group: 'Perros y Gatos' },
+  { id: 'ropita',   label: 'Ropita',   group: 'Perros y Gatos' },
+  { id: 'juguetes', label: 'Juguetes', group: 'Perros y Gatos' },
+  { id: 'accesorios', label: 'Accesorios', group: 'Perros y Gatos' },
 ];
 
 const DEFAULT_PRODUCTS = [
@@ -1759,19 +1835,79 @@ function mediaHTML(p){
   return `<div style="width:100%;height:100%;background:${p.color};display:flex;align-items:center;justify-content:center;">${pawSVG}</div>`;
 }
 
+// Rubros sin "group" quedan sueltos (compatibilidad con categorías viejas);
+// los que tienen el mismo "group" se agrupan bajo ese título, en el orden en que aparecen.
+function catGroups(){
+  const groups = [];
+  const map = {};
+  CATEGORIES.filter(c=>c.id!=='todos').forEach(c=>{
+    const g = c.group || null;
+    const key = g || ('__sola__' + c.id);
+    if(!map[key]){ map[key] = { name: g, items: [] }; groups.push(map[key]); }
+    map[key].items.push(c);
+  });
+  return groups;
+}
+
+let expandedGroups = null; // se inicializa la primera vez: todos los grupos abiertos
+
 function renderCategories(){
-  const nav = document.getElementById('categorias');
-  nav.innerHTML = CATEGORIES.map(c =>
-    `<button class="cat-pill ${c.id===activeCat?'active':''}" data-cat="${c.id}">${c.label}</button>`
-  ).join('');
-  nav.querySelectorAll('.cat-pill').forEach(btn=>{
+  const activeLabel = CATEGORIES.find(c=>c.id===activeCat)?.label || 'Todos';
+  document.getElementById('ctLabel').textContent = activeLabel;
+
+  const groups = catGroups();
+  if(!expandedGroups) expandedGroups = new Set(groups.map(g=>g.name));
+
+  const body = document.getElementById('catsPanelBody');
+  body.innerHTML =
+    `<button class="cats-all ${activeCat==='todos'?'active':''}" data-cat="todos">Todos los productos</button>` +
+    groups.map(g=>{
+      const open = g.name===null || expandedGroups.has(g.name);
+      const itemsHtml = g.items.map(c=>
+        `<button class="cats-item ${c.id===activeCat?'active':''}" data-cat="${c.id}">${c.label}</button>`
+      ).join('');
+      if(g.name===null){
+        // rubro suelto: se muestra como un ítem de primer nivel, sin acordeón
+        return `<div class="cats-group open"><div class="cats-group-items" style="padding-left:6px;display:block;">${itemsHtml}</div></div>`;
+      }
+      return `
+        <div class="cats-group ${open?'open':''}" data-group="${escaparHtml(g.name)}">
+          <button class="cats-group-head" data-gtoggle="${escaparHtml(g.name)}">
+            <svg class="gh-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polyline points="9 18 15 12 9 6"/></svg>
+            ${escaparHtml(g.name)}
+          </button>
+          <div class="cats-group-items">${itemsHtml}</div>
+        </div>`;
+    }).join('');
+
+  body.querySelectorAll('[data-cat]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       activeCat = btn.dataset.cat;
       renderCategories();
       renderGrid();
+      closeCatsPanel();
+    });
+  });
+  body.querySelectorAll('[data-gtoggle]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const name = btn.dataset.gtoggle;
+      if(expandedGroups.has(name)) expandedGroups.delete(name);
+      else expandedGroups.add(name);
+      renderCategories();
     });
   });
 }
+
+function openCatsPanel(){
+  document.getElementById('catsPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeCatsPanel(){
+  document.getElementById('catsPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+document.getElementById('openCatsPanel').addEventListener('click', openCatsPanel);
+document.getElementById('closeCatsPanel').addEventListener('click', closeCatsPanel);
 
 // Sin stock si lo marcaste a mano, o si tiene opciones y todas están agotadas.
 function sinStock(p){
@@ -2418,6 +2554,7 @@ document.getElementById('overlay').addEventListener('click', closeDrawer);
 function closeDrawer(){
   document.getElementById('drawer').classList.remove('open');
   document.getElementById('settings').classList.remove('open');
+  document.getElementById('catsPanel').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
 }
 
@@ -3132,8 +3269,8 @@ function renderAdmCats(){
     return `
       <div class="adm-item">
         <div class="adm-info">
-          <div class="adm-name">${c.label}</div>
-          <div class="adm-meta">${count} ${count===1?'producto':'productos'}</div>
+          <div class="adm-name">${escaparHtml(c.label)}</div>
+          <div class="adm-meta">${count} ${count===1?'producto':'productos'}${c.group?` · grupo: ${escaparHtml(c.group)}`:''}</div>
         </div>
         <button class="adm-act" data-cedit="${c.id}">Editar</button>
         <button class="adm-act del" data-cdel="${c.id}">Borrar</button>
@@ -3169,6 +3306,11 @@ function openCatModal(id){
   const c = id ? CATEGORIES.find(x=>x.id===id) : null;
   document.getElementById('catModalTitle').textContent = c ? 'Editar categoría' : 'Nueva categoría';
   document.getElementById('catLabel').value = c ? c.label : '';
+  document.getElementById('catGroup').value = c ? (c.group || '') : (catGroups().find(g=>g.name)?.name || '');
+
+  const grupos = [...new Set(CATEGORIES.map(x=>x.group).filter(Boolean))];
+  document.getElementById('catGroupList').innerHTML = grupos.map(g=>`<option value="${escaparHtml(g)}">`).join('');
+
   openModal('catModal');
 }
 
@@ -3176,15 +3318,19 @@ document.getElementById('addCat').addEventListener('click', ()=>openCatModal(nul
 
 document.getElementById('catSave').addEventListener('click', ()=>{
   const label = document.getElementById('catLabel').value.trim();
+  const group = document.getElementById('catGroup').value.trim() || null;
   if(!label){ alert('Poné un nombre a la categoría.'); return; }
 
   if(editingCatId){
-    CATEGORIES.find(x=>x.id===editingCatId).label = label;
+    const c = CATEGORIES.find(x=>x.id===editingCatId);
+    c.label = label;
+    c.group = group;
   }else{
     let id = slugify(label);
     while(CATEGORIES.some(c=>c.id===id)) id += '-2';
-    CATEGORIES.push({id, label});
+    CATEGORIES.push({id, label, group});
   }
+  expandedGroups = null; // recalcula qué grupos mostrar abiertos
   saveCatalog();
   closeModals();
   refreshAll();
@@ -3201,13 +3347,8 @@ document.getElementById('clearHero').addEventListener('click', ()=>{
   settings.hero = null; saveSettings();
 });
 
-/* ---- Botones del inicio: bajar a cada sección ---- */
-function scrollToEl(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
 document.getElementById('goCatalog').addEventListener('click', descargarCatalogoPdf);
-document.getElementById('goCats').addEventListener('click', ()=>scrollToEl('categorias'));
+document.getElementById('goCats').addEventListener('click', openCatsPanel);
 
 /* ---- Ficha ampliada del producto ---- */
 let detailId = null;

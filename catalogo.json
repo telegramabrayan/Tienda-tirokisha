@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fecha": "2026-09-29T02:58:18.238329Z",
+  "fecha": "2026-09-29T23:22:16.797604Z",
   "categorias": [
     {
       "id": "todos",
@@ -8,39 +8,48 @@
     },
     {
       "id": "perros",
-      "label": "ROPAS IMPORTADAS (Perro-Gato-Conejo)"
+      "label": "ROPAS IMPORTADAS (Perro-Gato-Conejo)",
+      "group": "Perros y Gatos"
     },
     {
       "id": "gatos",
-      "label": "Shampoo"
+      "label": "Shampoo",
+      "group": "Perros y Gatos"
     },
     {
       "id": "ropita",
-      "label": "Productos Desparacitarios"
+      "label": "Productos Desparacitarios",
+      "group": "Perros y Gatos"
     },
     {
       "id": "juguetes",
-      "label": "Higuiene"
+      "label": "Higuiene",
+      "group": "Perros y Gatos"
     },
     {
       "id": "accesorios",
-      "label": "Accesorios"
+      "label": "Accesorios",
+      "group": "Perros y Gatos"
     },
     {
       "id": "camitas",
-      "label": "Juguetes"
+      "label": "Juguetes",
+      "group": "Perros y Gatos"
     },
     {
       "id": "higuiene",
-      "label": "Camas y Cuchetas"
+      "label": "Camas y Cuchetas",
+      "group": "Perros y Gatos"
     },
     {
       "id": "portales-correas-y-pretales",
-      "label": "Portales, Correas y Pretales"
+      "label": "Portales, Correas y Pretales",
+      "group": "Perros y Gatos"
     },
     {
       "id": "osprey",
-      "label": "Osprey"
+      "label": "Osprey",
+      "group": "Perros y Gatos"
     }
   ],
   "productos": [
