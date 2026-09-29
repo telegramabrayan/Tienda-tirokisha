@@ -595,6 +595,18 @@
     transition:transform .15s ease;
   }
   .ig-float:hover{transform:scale(1.08);}
+
+  .top-float{
+    position:fixed; left:20px; bottom:20px; z-index:44;
+    width:48px; height:48px; border-radius:999px;
+    background:var(--forest); color:#FFFFFF;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.2);
+    opacity:0; pointer-events:none; transform:translateY(10px);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .top-float.show{opacity:1; pointer-events:auto; transform:translateY(0);}
+  .top-float svg{width:22px;height:22px;}
   .ig-float svg{width:22px;height:22px;}
 
   /* ---------- Banner promocional ---------- */
@@ -1021,19 +1033,20 @@
     display:flex; flex-direction:column;
     transition:transform .15s ease, box-shadow .15s ease;
   }
-  .card:hover{transform:translateY(-5px) rotate(-0.8deg); box-shadow:var(--shadow);}
+  @media (hover:hover){
+    .card:hover{transform:translateY(-5px) rotate(-0.8deg); box-shadow:var(--shadow);}
+  }
   .card-media{
     aspect-ratio:1/1;
     display:flex; align-items:center; justify-content:center;
     position:relative;
   }
-  .card-tag{
-    position:absolute; top:10px; left:10px;
-    background:var(--tag-bg);
-    color:var(--tag-text);
-    font-size:11.5px; font-weight:700;
-    padding:4px 10px;
-    border-radius:999px;
+  .card-cat{
+    align-self:flex-start; max-width:100%;
+    background:var(--tag-bg); color:var(--tag-text);
+    font-size:10.5px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    padding:3px 9px; border-radius:999px; margin-bottom:3px;
   }
   .card-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:4px; flex:1;}
   .card-name{font-weight:600; font-size:15px; color:var(--ink);}
@@ -1160,6 +1173,39 @@
     .hero{grid-template-columns:1fr; padding-top:34px;}
     .hero-art{order:-1; max-width:280px; margin:0 auto;}
   }
+
+  /* ---------- Celular: inicio más corto y catálogo en 2 columnas ---------- */
+  @media (max-width:560px){
+    .hero{padding:18px 16px 22px; gap:14px;}
+    .hero-art{max-width:150px;}
+    .hero-eyebrow{margin-bottom:12px; font-size:13px;}
+    .hero p{font-size:15px; margin-top:12px;}
+    .hero-actions{margin-top:18px; gap:10px;}
+    .btn-primary, .btn-ghost{padding:12px 18px; font-size:14.5px;}
+
+    .catalog{padding:22px 14px 90px;}
+    .grid{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px;}
+    .card-body{padding:10px 10px 12px; gap:3px;}
+    .card-name{
+      font-size:13.5px; line-height:1.3;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .card-price{font-size:15.5px;}
+    .price-old{display:block; margin-left:0; font-size:12px;}
+    .card-desc{display:none;}
+    .card-cat{font-size:9.5px;}
+    .card-min{font-size:11px;}
+    .card-variant{margin-top:6px;}
+    .card-variant label{font-size:10.5px; margin-bottom:3px;}
+    .card-variant select{padding:7px 6px; font-size:12px;}
+    .card-add{margin-top:8px; padding:9px 6px; font-size:13px;}
+    .badge-stack{top:7px; right:7px; gap:4px; max-width:calc(100% - 14px);}
+    .tag-badge{font-size:9.5px; padding:3px 7px;}
+    .sale-tag, .low-tag{font-size:10px; padding:3px 8px; bottom:7px;}
+    .sale-tag{left:7px;} .low-tag{right:7px;}
+    .out-tag{font-size:14px;}
+    .card-media .gal-count{font-size:10px; padding:2px 6px;}
+  }
 </style>
 </head>
 <body>
@@ -1254,6 +1300,7 @@
     <button class="quick-filter" data-qf="oferta">🔥 Ofertas</button>
     <button class="quick-filter" data-qf="destacado">★ Destacados</button>
     <button class="quick-filter" data-qf="nuevo">🆕 Nuevos</button>
+    <button class="quick-filter" data-qf="stock">✅ Con stock</button>
   </div>
   <div class="grid" id="grid"></div>
 </main>
@@ -1685,6 +1732,9 @@
   <div class="pedido-sheet" id="pedidoSheet"></div>
 </section>
 
+<button class="top-float" id="topFloat" type="button" title="Volver al buscador" aria-label="Volver al buscador">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 <a class="ig-float" id="igFloat" target="_blank" rel="noopener" title="Seguinos en Instagram" style="display:none;">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none"/></svg>
 </a>
@@ -1816,6 +1866,7 @@ function visibleProducts(){
   if(quickFilter==='oferta')    base = base.filter(p=>ofertaLabel(p));
   if(quickFilter==='destacado') base = base.filter(p=>p.featured);
   if(quickFilter==='nuevo')     base = base.filter(p=>p.nuevo);
+  if(quickFilter==='stock')     base = base.filter(p=>!sinStock(p));
 
   if(searchTerm){
     const q = norm(searchTerm);
@@ -2007,10 +2058,10 @@ function priceLabel(p){
     const prices = p.variants.map(v=>unitPrice(p, v.name)).filter(x=>x!=null);
     if(prices.length===0) return '—';
     const min = Math.min(...prices), max = Math.max(...prices);
-    return min===max ? `$ ${min}` : `$ ${min} – $ ${max}`;
+    return min===max ? plata(min) : `${plata(min)} – ${plata(max)}`;
   }
   const pr = unitPrice(p, null);
-  return pr==null ? '—' : `$ ${pr}`;
+  return pr==null ? '—' : plata(pr);
 }
 
 function cartKey(id, variantName){ return id + '|' + (variantName || ''); }
@@ -2049,14 +2100,13 @@ function renderGrid(){
       <div class="card-variant">
         <label>${p.variantLabel || 'Opción'}</label>
         <select data-variant-for="${p.id}">
-          ${opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — $${unitPrice(p, v.name)}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('')}
+          ${opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — ${plata(unitPrice(p, v.name))}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('')}
         </select>
       </div>` : '';
     return `
     <div class="card ${out?'out':''}">
       <div class="card-media" data-detail="${p.id}">
         ${mediaHTML(p)}
-        <span class="card-tag">${catLabels(p).join(' · ')}</span>
         ${(!out && productBadges(p).length) ? `<div class="badge-stack">${productBadges(p).map(b=>`<span class="tag-badge ${b.cls}">${b.text}</span>`).join('')}</div>` : ''}
         ${out ? `<div class="out-tag">Sin stock</div>` : ''}
         ${(!out && ofertaLabel(p)) ? `<span class="sale-tag">🔥 ${escaparHtml(ofertaLabel(p))}</span>` : ''}
@@ -2064,8 +2114,9 @@ function renderGrid(){
         ${(p.imgs && p.imgs.length>1) ? `<span class="gal-count">${p.imgs.length} fotos</span>` : ''}
       </div>
       <div class="card-body">
+        ${catLabels(p).length ? `<span class="card-cat">${escaparHtml(catLabels(p).join(' · '))}</span>` : ''}
         <div class="card-name">${escaparHtml(p.name)}</div>
-        <div class="card-price" data-price-for="${p.id}">${priceLabel(p)}${precioViejo(p) ? `<span class="price-old">$ ${precioViejo(p)}</span>` : ''}</div>
+        <div class="card-price" data-price-for="${p.id}">${priceLabel(p)}${precioViejo(p) ? `<span class="price-old">${plata(precioViejo(p))}</span>` : ''}</div>
         ${p.desc ? `<div class="card-desc">${escaparHtml(p.desc)}</div>` : ''}
         ${mode==='mayor' && !out ? `<div class="card-min">Mínimo ${MIN_MAYOR} unidades</div>` : ''}
         ${out ? '' : variantUI}
@@ -2089,7 +2140,7 @@ function renderGrid(){
       const pr = unitPrice(p, sel.value);
       if(pr!=null && priceEl){
         const vj = precioViejo(p);
-        priceEl.innerHTML = `$ ${pr}` + (vj ? `<span class="price-old">$ ${vj}</span>` : '');
+        priceEl.innerHTML = plata(pr) + (vj ? `<span class="price-old">${plata(vj)}</span>` : '');
       }
     };
     sel.addEventListener('change', sync);
@@ -2179,7 +2230,7 @@ function renderDrawer(){
         <div class="di-media">${mediaHTML(it.p)}</div>
         <div class="di-body">
           <div class="di-name">${it.label}</div>
-          <div class="di-price">$ ${it.price} c/u${mode==='mayor'?' (por mayor)':''}</div>
+          <div class="di-price">${plata(it.price)} c/u${mode==='mayor'?' (por mayor)':''}</div>
           <div class="di-qty">
             <button class="qty-btn" data-act="minus" data-key="${key}">−</button>
             <span>${qty}</span>
@@ -2191,7 +2242,7 @@ function renderDrawer(){
     `;
   }).join('');
 
-  document.getElementById('cartTotal').textContent = '$' + total;
+  document.getElementById('cartTotal').textContent = plata(total);
 
   const ship = document.getElementById('shipNote');
   if(settings.envio && settings.envio.trim()){
@@ -2382,7 +2433,7 @@ async function descargarCatalogoPdf(){
     doc.setFont('helvetica','bold');
     doc.setFontSize(11);
     doc.setTextColor(acento[0], acento[1], acento[2]);
-    const txtMenor = 'Menor: $' + (p.price != null ? p.price : '-');
+    const txtMenor = 'Menor: ' + (p.price != null ? plata(p.price) : '-');
     doc.text(txtMenor, x, y + IMG + 12.5);
     doc.setTextColor(0,0,0);
     if(p.priceOld && Number(p.priceOld) > Number(p.price)){
@@ -2390,7 +2441,7 @@ async function descargarCatalogoPdf(){
       doc.setFont('helvetica','normal');
       doc.setFontSize(8.5);
       doc.setTextColor(suave[0], suave[1], suave[2]);
-      const txtViejo = '$' + p.priceOld;
+      const txtViejo = plata(p.priceOld);
       doc.text(txtViejo, x + wMenor + 3, y + IMG + 12.5);
       const wViejo = doc.getTextWidth(txtViejo);
       doc.setLineWidth(0.3);
@@ -2403,7 +2454,7 @@ async function descargarCatalogoPdf(){
     doc.setFontSize(9.5);
     doc.setTextColor(suave[0], suave[1], suave[2]);
     const may = (p.priceMayor != null && p.priceMayor !== '')
-      ? ('Mayor: $' + p.priceMayor + '  (desde ' + MIN_MAYOR + ' u.)')
+      ? ('Mayor: ' + plata(p.priceMayor) + '  (desde ' + MIN_MAYOR + ' u.)')
       : 'Mayor: consultar';
     doc.text(may, x, y + IMG + 18);
 
@@ -2498,12 +2549,12 @@ function buildWhatsappMessage(o){
     total += precio * qty;
     const label = talle ? `${nombre} (${talle})` : nombre;
     for(let k=0; k<qty; k++){
-      lines.push(`• ${label} — $${precio}`);
+      lines.push(`• ${label} — ${plata(precio)}`);
     }
   });
 
   lines.push('');
-  lines.push(`Total: $${total}`);
+  lines.push(`Total: ${plata(total)}`);
 
   const cierre = String(settings.cierre !== undefined ? settings.cierre : DEFAULTS.cierre).trim();
   if(cierre) lines.push('', cierre);
@@ -3398,6 +3449,14 @@ document.getElementById('clearHero').addEventListener('click', ()=>{
 document.getElementById('goCatalog').addEventListener('click', descargarCatalogoPdf);
 document.getElementById('goCats').addEventListener('click', openCatsPanel);
 
+const topFloat = document.getElementById('topFloat');
+window.addEventListener('scroll', ()=>{
+  topFloat.classList.toggle('show', window.scrollY > 1200);
+}, {passive:true});
+topFloat.addEventListener('click', ()=>{
+  document.getElementById('catalogo').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
 /* ---- Ficha ampliada del producto ---- */
 let detailId = null;
 
@@ -3444,8 +3503,8 @@ function openDetail(id){
   if(opts.length && !out){
     wrap.style.display = 'block';
     document.getElementById('detailVariantLabel').textContent = p.variantLabel || 'Opción';
-    sel.innerHTML = opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — $${unitPrice(p, v.name)}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('');
-    const sync = ()=>{ priceEl.textContent = `$ ${unitPrice(p, sel.value)}`; };
+    sel.innerHTML = opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — ${plata(unitPrice(p, v.name))}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('');
+    const sync = ()=>{ priceEl.textContent = plata(unitPrice(p, sel.value)); };
     sel.onchange = sync;
     sync();
   }else{
