@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fecha": "2026-09-29T02:54:45.553991Z",
+  "fecha": "2026-09-29T02:58:18.238329Z",
   "categorias": [
     {
       "id": "todos",
@@ -2935,6 +2935,21 @@
       "img": null,
       "price": 10348,
       "priceMayor": 8348
+    },
+    {
+      "id": 304,
+      "name": "Cepillo Dental",
+      "desc": "Productos importados",
+      "featured": false,
+      "stock": true,
+      "cats": [
+        "accesorios"
+      ],
+      "cat": "accesorios",
+      "color": "#7B3FF2",
+      "img": null,
+      "price": 3090,
+      "priceMayor": 2090
     }
   ],
   "ajustes": {
