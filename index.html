@@ -1300,7 +1300,6 @@
     <button class="quick-filter" data-qf="oferta">🔥 Ofertas</button>
     <button class="quick-filter" data-qf="destacado">★ Destacados</button>
     <button class="quick-filter" data-qf="nuevo">🆕 Nuevos</button>
-    <button class="quick-filter" data-qf="stock">✅ Con stock</button>
   </div>
   <div class="grid" id="grid"></div>
 </main>
@@ -1866,7 +1865,6 @@ function visibleProducts(){
   if(quickFilter==='oferta')    base = base.filter(p=>ofertaLabel(p));
   if(quickFilter==='destacado') base = base.filter(p=>p.featured);
   if(quickFilter==='nuevo')     base = base.filter(p=>p.nuevo);
-  if(quickFilter==='stock')     base = base.filter(p=>!sinStock(p));
 
   if(searchTerm){
     const q = norm(searchTerm);
@@ -2513,21 +2511,61 @@ function armarPedido(){
   };
 }
 
-function codificarPedido(o){
-  const json = JSON.stringify(o);
-  return btoa(unescape(encodeURIComponent(json)))
+function aBase64Url(texto){
+  return btoa(unescape(encodeURIComponent(texto)))
     .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 }
-
-function decodificarPedido(txt){
+function deBase64Url(txt){
   let b = String(txt).replace(/-/g,'+').replace(/_/g,'/');
   while(b.length % 4) b += '=';
-  return JSON.parse(decodeURIComponent(escape(atob(b))));
+  return decodeURIComponent(escape(atob(b)));
+}
+
+/* Formato corto del enlace (#p=): número|fecha|mayor|cliente|localidad|ítem|ítem…
+   Cada ítem es id,cantidad,precio,talle. Los enteros van en base 36 y los nombres
+   de los productos no viajan: se leen del catálogo al abrir el enlace. */
+function textoCorto(s){
+  return String(s || '').replace(/[%|,]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+}
+function numCorto(n){
+  n = Number(n) || 0;
+  return (Number.isInteger(n) && n >= 0) ? n.toString(36) : String(n);
+}
+function leerNumCorto(s){
+  return String(s).includes('.') ? parseFloat(s) : parseInt(s, 36);
+}
+
+function codificarPedido(o){
+  const items = o.i.map(([id, , talle, qty, precio]) =>
+    [numCorto(id), numCorto(qty), numCorto(precio), textoCorto(talle)].join(',').replace(/,+$/, ''));
+  return aBase64Url([o.n, numCorto(Math.floor(o.f / 1000)), o.m ? 1 : '', textoCorto(o.c), textoCorto(o.e)]
+    .concat(items).join('|'));
+}
+
+function decodificarPedidoCorto(txt){
+  const [n, f, m, c, e, ...items] = deBase64Url(txt).split('|');
+  return {
+    n, f: parseInt(f, 36) * 1000, m: m === '1' ? 1 : 0,
+    c: decodeURIComponent(c || ''), e: decodeURIComponent(e || ''),
+    i: items.filter(Boolean).map(it => {
+      const [id, qty, precio, talle] = it.split(',');
+      const pid = parseInt(id, 36);
+      const p = PRODUCTS.find(x => x.id === pid);
+      return [pid, p ? p.name : 'Producto que ya no está en la tienda',
+              decodeURIComponent(talle || ''), parseInt(qty, 36), leerNumCorto(precio)];
+    })
+  };
+}
+
+// Formato viejo (#pedido=): el pedido entero en JSON. Se sigue leyendo para los enlaces ya enviados.
+function decodificarPedido(txt){
+  return JSON.parse(deBase64Url(txt));
 }
 
 function enlacePedido(o){
   if(!/^https?:$/.test(location.protocol)) return '';   // abierto desde la compu: no sirve
-  return location.href.split('#')[0] + '#pedido=' + codificarPedido(o);
+  const base = location.origin + location.pathname.replace(/index\.html$/, '');
+  return base + '#p=' + codificarPedido(o);
 }
 
 function buildWhatsappMessage(o){
@@ -2548,9 +2586,9 @@ function buildWhatsappMessage(o){
   o.i.forEach(([id, nombre, talle, qty, precio])=>{
     total += precio * qty;
     const label = talle ? `${nombre} (${talle})` : nombre;
-    for(let k=0; k<qty; k++){
-      lines.push(`• ${label} — ${plata(precio)}`);
-    }
+    lines.push(qty > 1
+      ? `• ${label} × ${qty} — ${plata(precio * qty)} (${plata(precio)} c/u)`
+      : `• ${label} — ${plata(precio)}`);
   });
 
   lines.push('');
@@ -2567,10 +2605,10 @@ function buildWhatsappMessage(o){
 
 /* ---- La "factura" ---- */
 
-function mostrarPedido(codigo){
+function mostrarPedido(codigo, decodificar){
   const sheet = document.getElementById('pedidoSheet');
   let o;
-  try{ o = decodificarPedido(codigo); }catch(e){ o = null; }
+  try{ o = decodificar(codigo); }catch(e){ o = null; }
 
   if(!o || !Array.isArray(o.i)){
     sheet.innerHTML = '<div class="ps-error">No se pudo leer este pedido. Puede que el enlace se haya cortado al copiarlo.</div>';
@@ -3543,8 +3581,12 @@ function linkProducto(p){
 
 function abrirDesdeEnlace(){
   const crudo = (location.hash || '').replace(/^#/, '');
+  if(crudo.startsWith('p=')){
+    mostrarPedido(crudo.slice(2), decodificarPedidoCorto);
+    return;
+  }
   if(crudo.startsWith('pedido=')){
-    mostrarPedido(crudo.slice(7));
+    mostrarPedido(crudo.slice(7), decodificarPedido);
     return;
   }
   const h = decodeURIComponent(crudo).trim();
