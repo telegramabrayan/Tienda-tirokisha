@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fecha": "2026-09-29T23:22:16.797604Z",
+  "fecha": "2026-09-30T10:36:59.651Z",
   "categorias": [
     {
       "id": "todos",
@@ -48,7 +48,7 @@
     },
     {
       "id": "osprey",
-      "label": "Osprey",
+      "label": "Colonias Y Repelentes",
       "group": "Perros y Gatos"
     }
   ],
@@ -902,7 +902,7 @@
     },
     {
       "id": 15,
-      "name": "Osspret GATO",
+      "name": "shampoo osspret para gato 250ml",
       "price": 10000,
       "priceOld": null,
       "priceMayor": 8500,
@@ -911,8 +911,10 @@
       ],
       "cat": "gatos",
       "color": "#7B3FF2",
-      "img": null,
-      "imgs": [],
+      "img": "fotos/osspret-antiparasitario.jpg",
+      "imgs": [
+        "fotos/osspret-antiparasitario.jpg"
+      ],
       "variants": null,
       "variantLabel": null,
       "desc": "",
@@ -975,8 +977,10 @@
       ],
       "cat": "gatos",
       "color": "#17BEBB",
-      "img": null,
-      "imgs": [],
+      "img": "fotos/osspret-enjuague.jpg",
+      "imgs": [
+        "fotos/osspret-enjuague.jpg"
+      ],
       "variants": null,
       "variantLabel": null,
       "desc": "Shampoo de 250ml \n1 litro (24.500)\n5 litros (85.000)",
@@ -995,8 +999,10 @@
       ],
       "cat": "gatos",
       "color": "#17BEBB",
-      "img": null,
-      "imgs": [],
+      "img": "fotos/osspret-chocolate.jpg",
+      "imgs": [
+        "fotos/osspret-chocolate.jpg"
+      ],
       "variants": null,
       "variantLabel": null,
       "desc": "",
@@ -1006,17 +1012,19 @@
     },
     {
       "id": 20,
-      "name": "ENJUAGUE OSSPRET REACONDICIONADOR ESPECIAL LACIO",
-      "price": 12000,
+      "name": "enjuague osspret reacondicionador especial lacio",
+      "price": 14500,
       "priceOld": null,
-      "priceMayor": 10000,
+      "priceMayor": 12500,
       "cats": [
         "gatos"
       ],
       "cat": "gatos",
       "color": "#7B3FF2",
-      "img": null,
-      "imgs": [],
+      "img": "fotos/Enjuague-lacio.jpg",
+      "imgs": [
+        "fotos/Enjuague-lacio.jpg"
+      ],
       "variants": null,
       "variantLabel": null,
       "desc": "250g (12.000)\n1 litro (24.000)\n5 litros (82.00)",
@@ -1035,8 +1043,10 @@
       ],
       "cat": "gatos",
       "color": "#E22C6B",
-      "img": null,
-      "imgs": [],
+      "img": "fotos/osspret-mayor-volumen.jpg",
+      "imgs": [
+        "fotos/osspret-mayor-volumen.jpg"
+      ],
       "variants": null,
       "variantLabel": null,
       "desc": "250g (12.000)\n1 litro ( 24.000)\n5 litros (82.000)",
@@ -1055,11 +1065,432 @@
       ],
       "cat": "gatos",
       "color": "#E22C6B",
-      "img": null,
-      "imgs": [],
+      "img": "fotos/asspret-amitraz.jpg",
+      "imgs": [
+        "fotos/asspret-amitraz.jpg"
+      ],
       "variants": null,
       "variantLabel": null,
       "desc": "250g (10.400)\n5 litros (66.700)",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 23,
+      "name": "shampoo elmer cachorro 250ml",
+      "price": 7500,
+      "priceOld": null,
+      "priceMayor": 5000,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FFC53D",
+      "img": "fotos/elmer-cachorro.jpg",
+      "imgs": [
+        "fotos/elmer-cachorro.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 24,
+      "name": "Shampoo Elmer pulguicida y garrapaticida 250ml",
+      "price": 7500,
+      "priceOld": null,
+      "priceMayor": 5000,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#17BEBB",
+      "img": "fotos/elmer-naranja-.jpg",
+      "imgs": [
+        "fotos/elmer-naranja-.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 25,
+      "name": "shampoo elmer para perros pelaje blanco",
+      "price": 8000,
+      "priceOld": null,
+      "priceMayor": 5500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FFC53D",
+      "img": "fotos/elmer-blanco.jpg",
+      "imgs": [
+        "fotos/elmer-blanco.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 26,
+      "name": "Shampoo Elmer para perros de pelaje negro 250 ml",
+      "price": 8000,
+      "priceOld": null,
+      "priceMayor": 5500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#E22C6B",
+      "img": "fotos/elmer-negro.jpg",
+      "imgs": [
+        "fotos/elmer-negro.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 27,
+      "name": "shampoo y crema de enjuague Elmer 2 en 1",
+      "price": 7500,
+      "priceOld": null,
+      "priceMayor": 5000,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FFC53D",
+      "img": "fotos/elmer-verde.jpg",
+      "imgs": [
+        "fotos/elmer-verde.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 28,
+      "name": "Shampoo osspret aloe y avena 250ml",
+      "price": 10650,
+      "priceOld": null,
+      "priceMayor": 8650,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#17BEBB",
+      "img": "fotos/osspret-aloe.jpg",
+      "imgs": [
+        "fotos/osspret-aloe.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 29,
+      "name": "Shampoo Osspret Blanco 250ml",
+      "price": 10550,
+      "priceOld": null,
+      "priceMayor": 8550,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#E22C6B",
+      "img": "fotos/osspret-blanco.jpg",
+      "imgs": [
+        "fotos/osspret-blanco.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 30,
+      "name": "Shampoo osspret cachorro 250ml",
+      "price": 10000,
+      "priceOld": null,
+      "priceMayor": 8000,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#5B1FC7",
+      "img": "fotos/osspret-cachorro.jpg",
+      "imgs": [
+        "fotos/osspret-cachorro.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 31,
+      "name": "Shampoo Osspret Negro 250ml",
+      "price": 10550,
+      "priceOld": null,
+      "priceMayor": 8550,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#7B3FF2",
+      "img": "fotos/osspret-negro.jpg",
+      "imgs": [
+        "fotos/osspret-negro.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 32,
+      "name": "osspret sh. benzoilo 250ml",
+      "price": 14500,
+      "priceOld": null,
+      "priceMayor": 12500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FF4785",
+      "img": "fotos/osspret-peroxido.jpg",
+      "imgs": [
+        "fotos/osspret-peroxido.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 33,
+      "name": "shampoo osspret bronce",
+      "price": 8500,
+      "priceOld": null,
+      "priceMayor": 10500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#E22C6B",
+      "img": "fotos/osspret-bronce.jpg",
+      "imgs": [
+        "fotos/osspret-bronce.jpg",
+        "fotos/osspret-tradicional.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 34,
+      "name": "shampoo osspret algas",
+      "price": 10200,
+      "priceOld": null,
+      "priceMayor": 8200,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FFC53D",
+      "img": "fotos/osspret-alga.jpg",
+      "imgs": [
+        "fotos/osspret-alga.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 35,
+      "name": "shampoo osspret aqua ecto",
+      "price": 10500,
+      "priceOld": null,
+      "priceMayor": 8500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#17BEBB",
+      "img": "fotos/osspret-aqua.jpg",
+      "imgs": [
+        "fotos/osspret-aqua.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 36,
+      "name": "osspret sh. clorhexidina 250",
+      "price": 10500,
+      "priceOld": null,
+      "priceMayor": 8500,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#7B3FF2",
+      "img": "fotos/osspret-clorhexidina.jpg",
+      "imgs": [
+        "fotos/osspret-clorhexidina.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 38,
+      "name": "osspret sh. clorhexpro 250ml",
+      "price": 13400,
+      "priceOld": null,
+      "priceMayor": 11400,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#17BEBB",
+      "img": "fotos/osspret-clorhenxpro.jpg",
+      "imgs": [
+        "fotos/osspret-clorhenxpro.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 39,
+      "name": "shampoo osspret jabon liquido con glicerina 250ml",
+      "price": 9200,
+      "priceOld": null,
+      "priceMayor": 7200,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FFC53D",
+      "img": "fotos/osspret-jabon.jpg",
+      "imgs": [
+        "fotos/osspret-jabon.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 40,
+      "name": "osspret sh. ketoconazol 250ml",
+      "price": 14100,
+      "priceOld": null,
+      "priceMayor": 12100,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FFC53D",
+      "img": "fotos/osspret-keto.jpg",
+      "imgs": [
+        "fotos/osspret-keto.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 41,
+      "name": "shampoo osspret mix frutal 250ml",
+      "price": 9800,
+      "priceOld": null,
+      "priceMayor": 7800,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#FFC53D",
+      "img": "fotos/osspret-frutal.jpg",
+      "imgs": [
+        "fotos/osspret-frutal.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
+      "stock": true,
+      "lowStock": false,
+      "featured": false
+    },
+    {
+      "id": 42,
+      "name": "shampoo osspret aceite de jojoba",
+      "price": 10350,
+      "priceOld": null,
+      "priceMayor": 8350,
+      "cats": [
+        "gatos"
+      ],
+      "cat": "gatos",
+      "color": "#5B1FC7",
+      "img": "fotos/osspret-aceite.jpg",
+      "imgs": [
+        "fotos/osspret-aceite.jpg"
+      ],
+      "variants": null,
+      "variantLabel": null,
+      "desc": "",
       "stock": true,
       "lowStock": false,
       "featured": false
