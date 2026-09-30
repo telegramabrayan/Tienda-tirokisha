@@ -19,6 +19,8 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Todo lo que tu mascota necesita. Armá tu pedido y lo recibís por WhatsApp en un momento.">
+<meta name="theme-color" content="#7B3FF2">
+<link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%237B3FF2'/%3E%3Cpath d='M12 14.5c-3.2 0-6 2.1-6 4.8 0 1 .8 1.7 1.9 1.5 1.2-.2 2.6-.6 4.1-.6s2.9.4 4.1.6c1.1.2 1.9-.5 1.9-1.5 0-2.7-2.8-4.8-6-4.8z' fill='white'/%3E%3Ccircle cx='6.5' cy='9.5' r='2.2' fill='white'/%3E%3Ccircle cx='17.5' cy='9.5' r='2.2' fill='white'/%3E%3Ccircle cx='9.5' cy='6' r='2' fill='white'/%3E%3Ccircle cx='14.5' cy='6' r='2' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -537,12 +539,20 @@
     font-family:'Fredoka'; font-weight:600; font-size:16px;
     color:var(--ink);
   }
-  .fav-tag{
-    position:absolute; top:10px; right:10px;
-    background:var(--mustard); color:var(--ink);
+  .badge-stack{
+    position:absolute; top:10px; right:10px; z-index:2;
+    display:flex; flex-direction:column; align-items:flex-end; gap:5px;
+    max-width:calc(100% - 70px);
+  }
+  .tag-badge{
     font-size:11px; font-weight:700;
     padding:4px 9px; border-radius:999px;
+    white-space:nowrap;
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
   }
+  .tag-badge.b-fav{background:var(--mustard); color:var(--ink);}
+  .tag-badge.b-new{background:var(--turquoise); color:#08312F;}
+  .tag-badge.b-hot{background:var(--coral); color:#fff;}
   .card-media{cursor:zoom-in;}
   .card-desc{
     font-size:12.5px; color:var(--ink-soft); line-height:1.45;
@@ -563,7 +573,7 @@
   }
   .detail-desc{font-size:14.5px; color:var(--ink-soft); line-height:1.6; margin-bottom:12px;}
 
-  /* ---------- WhatsApp flotante ---------- */
+  /* ---------- WhatsApp / Instagram flotantes ---------- */
   .wa-float{
     position:fixed; right:20px; bottom:20px; z-index:45;
     width:56px; height:56px; border-radius:999px;
@@ -574,6 +584,84 @@
   }
   .wa-float:hover{transform:scale(1.08);}
   .wa-float svg{width:28px;height:28px;}
+
+  .ig-float{
+    position:fixed; right:20px; bottom:86px; z-index:45;
+    width:48px; height:48px; border-radius:999px;
+    background:radial-gradient(circle at 30% 110%, #FFD776 0%, #FF7A5C 30%, #E22C6B 55%, #7B3FF2 90%);
+    color:white;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 18px rgba(226,44,107,0.35);
+    transition:transform .15s ease;
+  }
+  .ig-float:hover{transform:scale(1.08);}
+
+  .top-float{
+    position:fixed; left:20px; bottom:20px; z-index:44;
+    width:48px; height:48px; border-radius:999px;
+    background:var(--forest); color:#FFFFFF;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.2);
+    opacity:0; pointer-events:none; transform:translateY(10px);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .top-float.show{opacity:1; pointer-events:auto; transform:translateY(0);}
+  .top-float svg{width:22px;height:22px;}
+  .ig-float svg{width:22px;height:22px;}
+
+  /* ---------- Banner promocional ---------- */
+  .promo-banner{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    flex-wrap:wrap; text-align:center;
+    max-width:1180px; margin:0 auto 18px; padding:13px 22px;
+    background:linear-gradient(90deg, var(--forest), var(--coral));
+    color:#fff; border-radius:999px; cursor:pointer;
+    box-shadow:0 8px 22px rgba(123,63,242,0.25);
+  }
+  .promo-text{font-family:'Fredoka',sans-serif; font-weight:600; font-size:15.5px;}
+  .promo-sub{font-size:13.5px; opacity:0.92;}
+  @media(max-width:620px){
+    .promo-banner{margin-left:16px; margin-right:16px; padding:11px 16px;}
+  }
+
+  /* ---------- Filtros rápidos (ofertas, destacados, nuevos) ---------- */
+  .quick-filters{display:flex; gap:8px; flex-wrap:wrap; margin:-6px 0 18px;}
+  .quick-filter{
+    padding:7px 14px; border-radius:999px;
+    border:1.5px solid var(--line); background:white;
+    font-size:13px; font-weight:600; color:var(--ink-soft);
+  }
+  .quick-filter:hover{border-color:var(--forest);}
+  .quick-filter.on{background:var(--forest); color:var(--cream); border-color:var(--forest);}
+
+  /* ---------- Sugerencias del buscador ---------- */
+  .search-suggest{
+    display:none; position:absolute; left:0; right:0; top:calc(100% + 6px);
+    background:white; border:1.5px solid var(--line); border-radius:var(--radius-sm);
+    box-shadow:0 10px 26px rgba(0,0,0,0.12); overflow:hidden; z-index:30;
+  }
+  .search-suggest.open{display:block;}
+  .search-suggest button{
+    display:flex; align-items:center; gap:10px; width:100%;
+    padding:9px 14px; text-align:left; background:white;
+    font-size:13.5px; color:var(--ink); border-bottom:1px solid var(--line);
+  }
+  .search-suggest button:last-child{border-bottom:none;}
+  .search-suggest button:hover{background:var(--cream-2);}
+  .search-suggest small{color:var(--ink-soft); font-weight:400;}
+
+  /* ---------- Índice rápido del panel de administración ---------- */
+  .settings-index{
+    display:flex; gap:6px; overflow-x:auto; white-space:nowrap;
+    padding:10px 16px; border-bottom:1px solid var(--line);
+    background:var(--cream);
+  }
+  .settings-index a{
+    flex:0 0 auto; padding:6px 12px; border-radius:999px;
+    background:white; border:1.5px solid var(--line);
+    font-size:12.5px; font-weight:600; color:var(--ink-soft);
+  }
+  .settings-index a:hover{border-color:var(--forest); color:var(--forest);}
 
   .clear-cart{
     width:100%; padding:9px; margin-bottom:10px;
@@ -798,33 +886,127 @@
     animation:floatUp 4s ease-in-out infinite;
   }
 
-  /* ---------- Category nav ---------- */
+  /* ---------- Category nav: botón que abre el menú de rubros ---------- */
   .cat-nav{
     max-width:1180px; margin:0 auto;
     padding:0 24px 10px;
-    display:flex; gap:10px; flex-wrap:wrap;
   }
-  .cat-pill{
-    padding:10px 18px;
-    border-radius:999px;
-    border:1.5px solid var(--line);
-    background:white;
-    font-weight:600;
-    font-size:14.5px;
-    color:var(--ink-soft);
-    transition:all .15s ease;
-    white-space:nowrap;
+  .cats-trigger{
+    width:100%; display:flex; align-items:center; gap:14px;
+    padding:18px 22px; border-radius:20px;
+    background:linear-gradient(100deg, var(--forest) 0%, var(--coral) 100%);
+    color:#FFFFFF; text-align:left;
+    font-family:'Fredoka', sans-serif; font-weight:600; font-size:18px;
+    box-shadow:0 10px 26px rgba(123,63,242,0.35);
+    transition:transform .15s ease, box-shadow .15s ease;
   }
-  .cat-pill.active, .cat-pill:hover{
-    background:var(--forest);
-    color:var(--cream);
-    border-color:var(--forest);
+  .cats-trigger:hover{transform:translateY(-2px); box-shadow:0 14px 32px rgba(123,63,242,0.45);}
+  .cats-trigger:active{transform:translateY(0);}
+  .cats-trigger .ct-icon{
+    width:42px; height:42px; border-radius:12px; flex-shrink:0;
+    background:rgba(255,255,255,0.22);
+    display:flex; align-items:center; justify-content:center;
   }
-  .cat-pill[data-cat="perros"].active{background:var(--forest); border-color:var(--forest);}
-  .cat-pill[data-cat="gatos"].active{background:var(--coral); border-color:var(--coral);}
-  .cat-pill[data-cat="ropita"].active{background:var(--mustard); color:var(--ink); border-color:var(--mustard);}
-  .cat-pill[data-cat="juguetes"].active{background:var(--turquoise); border-color:var(--turquoise);}
-  .cat-pill[data-cat="accesorios"].active{background:var(--forest-deep); border-color:var(--forest-deep);}
+  .cats-trigger .ct-icon svg{width:22px;height:22px;}
+  .cats-trigger .ct-label{flex:1; display:flex; flex-direction:column; line-height:1.2;}
+  .cats-trigger .ct-label small{
+    font-family:'Inter', sans-serif; font-size:12.5px; font-weight:500;
+    opacity:0.85; margin-bottom:3px;
+  }
+  .cats-trigger .ct-label b{font-weight:700;}
+  .cats-trigger .ct-go{
+    flex-shrink:0; display:flex; align-items:center; gap:6px;
+    background:#FFFFFF; color:var(--forest-deep);
+    font-family:'Inter', sans-serif; font-size:13.5px; font-weight:700;
+    padding:9px 14px; border-radius:999px;
+  }
+  .cats-trigger .ct-go svg{width:14px;height:14px;}
+  @keyframes ctPulse{
+    0%{box-shadow:0 0 0 0 rgba(255,255,255,0.7);}
+    70%{box-shadow:0 0 0 12px rgba(255,255,255,0);}
+    100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}
+  }
+  .cats-trigger .ct-go{animation:ctPulse 2.2s ease-out infinite;}
+  @media (prefers-reduced-motion: reduce){ .cats-trigger .ct-go{animation:none;} }
+  @media(max-width:520px){
+    .cats-trigger{padding:15px 16px; font-size:16.5px; gap:12px;}
+    .cats-trigger .ct-icon{width:38px;height:38px;}
+    .cats-trigger .ct-go span{display:none;}
+    .cats-trigger .ct-go{padding:9px;}
+  }
+
+  /* ---------- Panel de rubros (menú desplegable tipo acordeón) ---------- */
+  .cats-panel{
+    position:fixed; top:0; left:0; height:100%;
+    width:min(360px, 100%);
+    background:#161C2E;
+    color:#E7E9F2;
+    z-index:51;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    display:flex; flex-direction:column;
+    box-shadow:10px 0 30px rgba(0,0,0,0.25);
+    font-family:'Inter', sans-serif;
+  }
+  .cats-panel.open{transform:translateX(0);}
+  .cats-panel-head{
+    padding:20px 22px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .cats-panel-head h3{
+    font-family:'Fredoka', sans-serif; font-size:20px; font-weight:600;
+    color:#FFFFFF; letter-spacing:0.5px;
+  }
+  .cats-panel-close{
+    background:transparent; font-size:24px; color:#9AA0B4;
+    width:34px; height:34px; border-radius:999px;
+  }
+  .cats-panel-close:hover{background:rgba(255,255,255,0.08); color:#FFFFFF;}
+  .cats-panel-body{flex:1; overflow-y:auto; padding:10px 10px 24px;}
+
+  .cats-all{
+    display:block; width:100%; text-align:left;
+    padding:13px 16px; margin-bottom:6px;
+    border-radius:12px; font-weight:700; font-size:15px;
+    color:#E7E9F2; background:transparent;
+  }
+  .cats-all:hover{background:rgba(255,255,255,0.06);}
+  .cats-all.active{background:var(--forest); color:#FFFFFF;}
+
+  .cats-group{
+    margin-top:8px; padding-top:8px;
+    border-top:1px solid rgba(255,255,255,0.1);
+  }
+  .cats-group-head{
+    display:flex; align-items:center; gap:10px; width:100%;
+    padding:13px 16px; text-align:left;
+    font-size:15.5px; font-weight:700; letter-spacing:0.3px;
+    color:#FFFFFF; background:transparent; border-radius:12px;
+  }
+  .cats-group-head:hover{background:rgba(255,255,255,0.06);}
+  .cats-group-head .gh-chev{
+    width:15px;height:15px; color:#8B92AC; flex-shrink:0;
+    transition:transform .2s ease;
+  }
+  .cats-group.open .cats-group-head .gh-chev{transform:rotate(90deg);}
+  .cats-group-items{
+    display:none; padding:4px 6px 14px 20px;
+  }
+  .cats-group.open .cats-group-items{display:block;}
+  .cats-item{
+    display:flex; align-items:center; gap:10px; width:100%;
+    text-align:left; padding:14px 14px;
+    background:transparent;
+    border-radius:10px; font-size:15px; color:#D3D7E6;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    margin-bottom:2px;
+  }
+  .cats-item:last-child{border-bottom:none;}
+  .cats-item::before{content:'—'; color:#565D78; font-size:13px;}
+  .cats-item:hover{background:rgba(255,255,255,0.06); color:#FFFFFF;}
+  .cats-item.active{background:var(--coral); color:#FFFFFF; font-weight:600;}
+  .cats-item.active::before{color:rgba(255,255,255,0.7);}
 
   /* ---------- Products ---------- */
   .catalog{
@@ -851,19 +1033,20 @@
     display:flex; flex-direction:column;
     transition:transform .15s ease, box-shadow .15s ease;
   }
-  .card:hover{transform:translateY(-5px) rotate(-0.8deg); box-shadow:var(--shadow);}
+  @media (hover:hover){
+    .card:hover{transform:translateY(-5px) rotate(-0.8deg); box-shadow:var(--shadow);}
+  }
   .card-media{
     aspect-ratio:1/1;
     display:flex; align-items:center; justify-content:center;
     position:relative;
   }
-  .card-tag{
-    position:absolute; top:10px; left:10px;
-    background:var(--tag-bg);
-    color:var(--tag-text);
-    font-size:11.5px; font-weight:700;
-    padding:4px 10px;
-    border-radius:999px;
+  .card-cat{
+    align-self:flex-start; max-width:100%;
+    background:var(--tag-bg); color:var(--tag-text);
+    font-size:10.5px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    padding:3px 9px; border-radius:999px; margin-bottom:3px;
   }
   .card-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:4px; flex:1;}
   .card-name{font-weight:600; font-size:15px; color:var(--ink);}
@@ -990,6 +1173,39 @@
     .hero{grid-template-columns:1fr; padding-top:34px;}
     .hero-art{order:-1; max-width:280px; margin:0 auto;}
   }
+
+  /* ---------- Celular: inicio más corto y catálogo en 2 columnas ---------- */
+  @media (max-width:560px){
+    .hero{padding:18px 16px 22px; gap:14px;}
+    .hero-art{max-width:150px;}
+    .hero-eyebrow{margin-bottom:12px; font-size:13px;}
+    .hero p{font-size:15px; margin-top:12px;}
+    .hero-actions{margin-top:18px; gap:10px;}
+    .btn-primary, .btn-ghost{padding:12px 18px; font-size:14.5px;}
+
+    .catalog{padding:22px 14px 90px;}
+    .grid{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px;}
+    .card-body{padding:10px 10px 12px; gap:3px;}
+    .card-name{
+      font-size:13.5px; line-height:1.3;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .card-price{font-size:15.5px;}
+    .price-old{display:block; margin-left:0; font-size:12px;}
+    .card-desc{display:none;}
+    .card-cat{font-size:9.5px;}
+    .card-min{font-size:11px;}
+    .card-variant{margin-top:6px;}
+    .card-variant label{font-size:10.5px; margin-bottom:3px;}
+    .card-variant select{padding:7px 6px; font-size:12px;}
+    .card-add{margin-top:8px; padding:9px 6px; font-size:13px;}
+    .badge-stack{top:7px; right:7px; gap:4px; max-width:calc(100% - 14px);}
+    .tag-badge{font-size:9.5px; padding:3px 7px;}
+    .sale-tag, .low-tag{font-size:10px; padding:3px 8px; bottom:7px;}
+    .sale-tag{left:7px;} .low-tag{right:7px;}
+    .out-tag{font-size:14px;}
+    .card-media .gal-count{font-size:10px; padding:2px 6px;}
+  }
 </style>
 </head>
 <body>
@@ -1031,6 +1247,11 @@
   </div>
 </section>
 
+<a class="promo-banner" id="promoBanner" style="display:none;" target="_blank">
+  <span class="promo-text" id="promoText"></span>
+  <span class="promo-sub" id="promoSub"></span>
+</a>
+
 <div class="mode-wrap">
   <div class="mode-switch">
     <button id="modeMenor" class="on">Por menor</button>
@@ -1039,7 +1260,21 @@
   <span class="mode-note" id="modeNote">Comprá la cantidad que quieras.</span>
 </div>
 
-<nav class="cat-nav" id="categorias"></nav>
+<nav class="cat-nav" id="categorias">
+  <button class="cats-trigger" id="openCatsPanel" type="button">
+    <span class="ct-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </span>
+    <span class="ct-label">
+      <small>Explorá por categoría</small>
+      <b id="ctLabel">Todos los productos</b>
+    </span>
+    <span class="ct-go">
+      <span>Ver</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polyline points="9 18 15 12 9 6"/></svg>
+    </span>
+  </button>
+</nav>
 
 <main class="catalog" id="catalogo">
   <div class="catalog-head">
@@ -1049,7 +1284,8 @@
   <div class="tools-row">
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="searchInput" placeholder="Buscar producto…">
+      <input type="text" id="searchInput" placeholder="Buscar producto, categoría…" autocomplete="off">
+      <div class="search-suggest" id="searchSuggest"></div>
     </div>
     <div class="sort-box">
       <select id="sortSelect">
@@ -1060,32 +1296,69 @@
       </select>
     </div>
   </div>
+  <div class="quick-filters" id="quickFilters">
+    <button class="quick-filter" data-qf="oferta">🔥 Ofertas</button>
+    <button class="quick-filter" data-qf="destacado">★ Destacados</button>
+    <button class="quick-filter" data-qf="nuevo">🆕 Nuevos</button>
+  </div>
   <div class="grid" id="grid"></div>
 </main>
 
 <div class="overlay" id="overlay"></div>
+
+<aside class="cats-panel" id="catsPanel">
+  <div class="cats-panel-head">
+    <h3>Categorías</h3>
+    <button class="cats-panel-close" id="closeCatsPanel">&times;</button>
+  </div>
+  <div class="cats-panel-body" id="catsPanelBody"></div>
+</aside>
 
 <aside class="settings" id="settings">
   <div class="drawer-head">
     <h3>Personalizar tienda</h3>
     <button class="drawer-close" id="closeSettings">&times;</button>
   </div>
+  <nav class="settings-index" id="settingsIndex"></nav>
   <div class="settings-body">
 
-    <div class="set-group">
-      <h4>Productos</h4>
+    <div class="set-group" id="grp-productos">
+      <h4>🛍️ Productos</h4>
       <div id="admProducts"></div>
       <button class="adm-add" id="addProduct">+ Agregar producto</button>
     </div>
 
-    <div class="set-group">
-      <h4>Categorías</h4>
+    <div class="set-group" id="grp-categorias">
+      <h4>📂 Categorías</h4>
       <div id="admCats"></div>
       <button class="adm-add" id="addCat">+ Agregar categoría</button>
     </div>
 
-    <div class="set-group">
-      <h4>Copia de seguridad</h4>
+    <div class="set-group" id="grp-banner">
+      <h4>📢 Banner promocional</h4>
+      <div class="set-field">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="inBannerOn" style="width:auto;">
+          Mostrar banner arriba del catálogo
+        </label>
+      </div>
+      <div class="set-field">
+        <label>Texto principal</label>
+        <input type="text" id="inBannerTexto" placeholder="🔥 OFERTAS DE LA SEMANA">
+      </div>
+      <div class="set-field">
+        <label>Texto secundario</label>
+        <input type="text" id="inBannerSub" placeholder="Hasta 30% OFF en ropita seleccionada">
+      </div>
+      <div class="set-field">
+        <label>Enlace al tocarlo (opcional)</label>
+        <input type="text" id="inBannerLink" placeholder="#categorias o un link de WhatsApp">
+      </div>
+      <p class="set-hint">Se ve como un cartel angosto entre el inicio y el catálogo. Dejá el texto principal vacío para ocultarlo aunque esté activado.</p>
+    </div>
+
+    <div class="set-group" id="grp-backup">
+      <h4>💾 Copia de seguridad</h4>
       <button class="file-btn" id="exportBtn" style="cursor:pointer;width:100%;margin-bottom:8px;">Descargar para publicar</button>
       <p class="set-hint" style="margin:0 0 12px;">Se baja como <b>catalogo.json</b>. Este es el que va a Netlify, con ese nombre exacto.</p>
 
@@ -1107,23 +1380,23 @@
       </div>
     </div>
 
-    <div class="set-group">
-      <h4>Foto de perfil</h4>
+    <div class="set-group" id="grp-logo">
+      <h4>🖼️ Foto de perfil</h4>
       <label class="file-btn" for="logoInput">Elegir imagen</label>
       <input type="file" id="logoInput" accept="image/*" style="display:none;">
       <p class="set-hint">Se muestra redonda al lado del nombre. Cuadrada queda mejor.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Foto grande del inicio</h4>
+    <div class="set-group" id="grp-hero">
+      <h4>🖼️ Foto grande del inicio</h4>
       <label class="file-btn" for="heroInput">Elegir imagen</label>
       <input type="file" id="heroInput" accept="image/*" style="display:none;">
       <button class="set-reset" id="clearHero" style="margin-top:8px;">Quitar foto grande</button>
       <p class="set-hint">Reemplaza la huellita del centro. Podés usar la misma foto de perfil.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Textos</h4>
+    <div class="set-group" id="grp-textos">
+      <h4>✏️ Textos</h4>
       <div class="set-field">
         <label>Nombre de la tienda</label>
         <input type="text" id="inBrand">
@@ -1146,8 +1419,8 @@
       </div>
     </div>
 
-    <div class="set-group">
-      <h4>Colores</h4>
+    <div class="set-group" id="grp-colores">
+      <h4>🎨 Colores</h4>
       <div class="color-row"><input type="color" id="colForest"><span>Principal (violeta)</span></div>
       <div class="color-row"><input type="color" id="colCoral"><span>Acento (rosa)</span></div>
       <div class="color-row"><input type="color" id="colMustard"><span>Alegre (amarillo)</span></div>
@@ -1156,15 +1429,15 @@
       <p class="set-hint">Estos cinco pintan toda la tienda de una. Si querés afinar cosa por cosa, usá el bloque de abajo.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Colores detallados</h4>
+    <div class="set-group" id="grp-colores-adv">
+      <h4>🎨 Colores detallados</h4>
       <p class="set-hint">Cada cosa por separado. Los que dicen <b>Auto</b> se calculan solos a partir de los cinco de arriba. Tocá el color para fijarlo a mano, o tocá <b>Auto</b> para volver atrás.</p>
       <div id="advColors"></div>
       <button class="set-reset" id="advResetBtn" type="button">Volver todo a automático</button>
     </div>
 
-    <div class="set-group">
-      <h4>Guía de talles</h4>
+    <div class="set-group" id="grp-talles">
+      <h4>📏 Guía de talles</h4>
       <div class="set-field">
         <label>Tabla (una fila por línea, columnas separadas con | )</label>
         <textarea id="inGuiaTalles" rows="6" placeholder="Talle | Largo de lomo | Contorno de pecho&#10;S | 25 cm | 34 cm"></textarea>
@@ -1176,8 +1449,8 @@
       <p class="set-hint">La primera línea es el encabezado. El botón "Guía de talles" aparece solo en los productos que tengan talles cargados. Si borrás la tabla, el botón no se muestra.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Botón "Descargar catálogo"</h4>
+    <div class="set-group" id="grp-pdf">
+      <h4>📄 Botón "Descargar catálogo"</h4>
       <div class="set-field">
         <label>Tu propio PDF (opcional)</label>
         <input type="text" id="inPdfPropio" placeholder="catalogo.pdf">
@@ -1185,8 +1458,8 @@
       <p class="set-hint">Si dejás esto vacío, el botón arma el PDF solo con los productos de la categoría Ropita.<br>Si escribís el nombre de un archivo, el botón baja ese archivo. Tenés que ponerlo en la carpeta <b>tirokisha</b>, al lado del index.html, y subir la carpeta a Netlify.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Mensaje de WhatsApp</h4>
+    <div class="set-group" id="grp-wamsg">
+      <h4>💬 Mensaje de WhatsApp</h4>
       <div class="set-field">
         <label>Saludo (arranca el mensaje)</label>
         <input type="text" id="inSaludo" placeholder="¡Hola Tirokisha! Te dejo mi pedido 🐾">
@@ -1198,16 +1471,25 @@
       <p class="set-hint">Dejá cualquiera de los dos vacío si no lo querés. La lista de productos y el total se arman solos.</p>
     </div>
 
-    <div class="set-group">
-      <h4>Envíos</h4>
+    <div class="set-group" id="grp-mayor">
+      <h4>📦 Venta por mayor</h4>
+      <div class="set-field">
+        <label>Mínimo de unidades por producto</label>
+        <input type="text" id="inMinMayor" inputmode="numeric" placeholder="3">
+      </div>
+      <p class="set-hint">Se aplica cuando el cliente cambia a "Por mayor" arriba del catálogo. Solo se muestran ahí los productos que tengan cargado un precio por mayor.</p>
+    </div>
+
+    <div class="set-group" id="grp-envios">
+      <h4>🚚 Envíos</h4>
       <div class="set-field">
         <label>Aviso de envío (se ve en el carrito)</label>
         <textarea id="inEnvio" rows="3" placeholder="Envío en CABA $2500. Interior por correo, a convenir. Retiro sin cargo en Once."></textarea>
       </div>
     </div>
 
-    <div class="set-group">
-      <h4>Contraseña del panel</h4>
+    <div class="set-group" id="grp-pin">
+      <h4>🔒 Contraseña del panel</h4>
       <div class="set-field">
         <label>PIN para abrir este panel</label>
         <input type="text" id="inPin" inputmode="numeric" placeholder="dejalo vacío para no usar PIN">
@@ -1215,13 +1497,18 @@
       <p class="set-hint">Con un PIN, tus clientes no pueden entrar a editar precios. Anotalo en algún lado: si lo olvidás, hay que borrar los datos del navegador.</p>
     </div>
 
-    <div class="set-group">
-      <h4>WhatsApp</h4>
+    <div class="set-group" id="grp-whatsapp">
+      <h4>📱 WhatsApp y redes sociales</h4>
       <div class="set-field">
-        <label>Número con código de país</label>
+        <label>Número de WhatsApp con código de país</label>
         <input type="text" id="inWhatsapp" placeholder="5491179023405">
       </div>
       <p class="set-hint">Argentina: 549 + código de área + número, sin el 15.</p>
+      <div class="set-field">
+        <label>Instagram (usuario o link, opcional)</label>
+        <input type="text" id="inInstagram" placeholder="@tirokisha">
+      </div>
+      <p class="set-hint">Si lo cargás, aparece un botón de Instagram al lado del de WhatsApp.</p>
     </div>
 
     <button class="set-reset" id="resetSettings">Restaurar todo</button>
@@ -1296,7 +1583,15 @@
       </label>
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;">
         <input type="checkbox" id="prodFeatured" style="width:auto;">
-        Destacar este producto
+        ★ Destacar este producto
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;">
+        <input type="checkbox" id="prodNuevo" style="width:auto;">
+        🆕 Marcar como nuevo
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;">
+        <input type="checkbox" id="prodMasVendido" style="width:auto;">
+        💥 Marcar como más vendido
       </label>
     </div>
     <div class="set-field">
@@ -1312,6 +1607,12 @@
     <div class="set-field">
       <label>Precio anterior (opcional, para ofertas)</label>
       <input type="text" id="prodPriceOld" inputmode="numeric" placeholder="dejalo vacío si no está en oferta">
+      <p class="set-hint" style="margin:5px 0 0;">Si lo cargás, se calcula solo el % de descuento y aparece el cartel de oferta.</p>
+    </div>
+    <div class="set-field">
+      <label>Texto de oferta personalizado (opcional)</label>
+      <input type="text" id="prodOfertaTexto" placeholder="Ej: 2x1, Liquidación, Último talle">
+      <p class="set-hint" style="margin:5px 0 0;">Si lo dejás vacío, se muestra el % de descuento calculado.</p>
     </div>
     <div class="set-field" id="prodPriceMayorField">
       <label>Precio por mayor (opcional)</label>
@@ -1373,6 +1674,12 @@
       <label>Nombre de la categoría</label>
       <input type="text" id="catLabel" placeholder="Camitas">
     </div>
+    <div class="set-field">
+      <label>Grupo (opcional)</label>
+      <input type="text" id="catGroup" placeholder="Perros y Gatos" list="catGroupList">
+      <datalist id="catGroupList"></datalist>
+      <p class="set-hint" style="margin:5px 0 0;">Las categorías con el mismo grupo aparecen juntas, dentro de un desplegable, en el menú de categorías. Dejalo vacío para que quede suelta.</p>
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" data-close-modal>Cancelar</button>
       <button class="btn-save" id="catSave">Guardar</button>
@@ -1424,6 +1731,12 @@
   <div class="pedido-sheet" id="pedidoSheet"></div>
 </section>
 
+<button class="top-float" id="topFloat" type="button" title="Volver al buscador" aria-label="Volver al buscador">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<a class="ig-float" id="igFloat" target="_blank" rel="noopener" title="Seguinos en Instagram" style="display:none;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+</a>
 <a class="wa-float" id="waFloat" target="_blank" title="Escribinos por WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.17c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.34-.14-.19-1.17-1.56-1.17-2.98 0-1.42.74-2.11 1.01-2.4.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.21 1.37.28.14.44.12.6-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.63-.14.26.09 1.66.78 1.94.93.28.14.47.21.53.33.07.12.07.68-.17 1.36z"/></svg>
 </a>
@@ -1442,11 +1755,11 @@
    ========================================================= */
 const DEFAULT_CATEGORIES = [
   { id: 'todos',    label: 'Todos' },
-  { id: 'perros',   label: 'Perros' },
-  { id: 'gatos',    label: 'Gatos' },
-  { id: 'ropita',   label: 'Ropita' },
-  { id: 'juguetes', label: 'Juguetes' },
-  { id: 'accesorios', label: 'Accesorios' },
+  { id: 'perros',   label: 'Perros',   group: 'Perros y Gatos' },
+  { id: 'gatos',    label: 'Gatos',    group: 'Perros y Gatos' },
+  { id: 'ropita',   label: 'Ropita',   group: 'Perros y Gatos' },
+  { id: 'juguetes', label: 'Juguetes', group: 'Perros y Gatos' },
+  { id: 'accesorios', label: 'Accesorios', group: 'Perros y Gatos' },
 ];
 
 const DEFAULT_PRODUCTS = [
@@ -1493,7 +1806,7 @@ let WHATSAPP_NUMBER = '5491179023405'; // Argentina: 549 + código de área + n�
 let activeCat = 'todos';
 
 /* ---------- Modo minorista / mayorista ---------- */
-const MIN_MAYOR = 3; // mínimo de unidades por producto en modo mayorista
+let MIN_MAYOR = 3; // mínimo de unidades por producto en modo mayorista (se puede editar en el panel)
 let mode = localStorage.getItem('tirokisha_mode') || 'menor';
 
 let carts = JSON.parse(localStorage.getItem('tirokisha_carts') || 'null');
@@ -1542,9 +1855,16 @@ function norm(t){
   return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
 
+// Filtros rápidos (ofertas / destacados / nuevos), independientes de la categoría.
+let quickFilter = null;
+
 function visibleProducts(){
   let base = mode==='mayor' ? PRODUCTS.filter(hasMayor) : PRODUCTS.slice();
   if(activeCat!=='todos') base = base.filter(p=>catsOf(p).includes(activeCat));
+
+  if(quickFilter==='oferta')    base = base.filter(p=>ofertaLabel(p));
+  if(quickFilter==='destacado') base = base.filter(p=>p.featured);
+  if(quickFilter==='nuevo')     base = base.filter(p=>p.nuevo);
 
   if(searchTerm){
     const q = norm(searchTerm);
@@ -1596,26 +1916,95 @@ function setMode(newMode){
 
 const pawSVG = `<svg viewBox="0 0 100 100" width="46%" fill="none"><path d="M50 59c-13 0-24.5 8.5-24.5 19.5 0 4 3.2 7 7.7 6.1 4.8-1 10.5-2.5 16.8-2.5s12 1.5 16.8 2.5c4.5.9 7.7-2.1 7.7-6.1C74.5 67.5 63 59 50 59z" fill="white" fill-opacity="0.85"/><circle cx="26.5" cy="38.5" r="9" fill="white" fill-opacity="0.85"/><circle cx="73.5" cy="38.5" r="9" fill="white" fill-opacity="0.85"/><circle cx="39" cy="25" r="8.2" fill="white" fill-opacity="0.85"/><circle cx="61" cy="25" r="8.2" fill="white" fill-opacity="0.85"/></svg>`;
 
+// Si la foto de un producto no carga (link roto, archivo borrado), muestra la huellita en su lugar.
+function mediaImgError(img){
+  const box = img.closest('.card-media, #detailMedia');
+  if(box) box.style.background = img.dataset.fallbackColor || '';
+  img.outerHTML = pawSVG;
+}
+
 function mediaHTML(p){
   if(p.img){
-    return `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`;
+    return `<img src="${p.img}" alt="${escaparHtml(p.name)}" loading="lazy" decoding="async" data-fallback-color="${p.color}" style="width:100%;height:100%;object-fit:cover;" onerror="mediaImgError(this)">`;
   }
   return `<div style="width:100%;height:100%;background:${p.color};display:flex;align-items:center;justify-content:center;">${pawSVG}</div>`;
 }
 
+// Rubros sin "group" quedan sueltos (compatibilidad con categorías viejas);
+// los que tienen el mismo "group" se agrupan bajo ese título, en el orden en que aparecen.
+function catGroups(){
+  const groups = [];
+  const map = {};
+  CATEGORIES.filter(c=>c.id!=='todos').forEach(c=>{
+    const g = c.group || null;
+    const key = g || ('__sola__' + c.id);
+    if(!map[key]){ map[key] = { name: g, items: [] }; groups.push(map[key]); }
+    map[key].items.push(c);
+  });
+  return groups;
+}
+
+let expandedGroups = null; // se inicializa la primera vez: todos los grupos abiertos
+
 function renderCategories(){
-  const nav = document.getElementById('categorias');
-  nav.innerHTML = CATEGORIES.map(c =>
-    `<button class="cat-pill ${c.id===activeCat?'active':''}" data-cat="${c.id}">${c.label}</button>`
-  ).join('');
-  nav.querySelectorAll('.cat-pill').forEach(btn=>{
+  const activeLabel = activeCat==='todos'
+    ? 'Todos los productos'
+    : (CATEGORIES.find(c=>c.id===activeCat)?.label || 'Todos los productos');
+  document.getElementById('ctLabel').textContent = activeLabel;
+
+  const groups = catGroups();
+  if(!expandedGroups) expandedGroups = new Set(groups.map(g=>g.name));
+
+  const body = document.getElementById('catsPanelBody');
+  body.innerHTML =
+    `<button class="cats-all ${activeCat==='todos'?'active':''}" data-cat="todos">Todos los productos</button>` +
+    groups.map(g=>{
+      const open = g.name===null || expandedGroups.has(g.name);
+      const itemsHtml = g.items.map(c=>
+        `<button class="cats-item ${c.id===activeCat?'active':''}" data-cat="${c.id}">${c.label}</button>`
+      ).join('');
+      if(g.name===null){
+        // rubro suelto: se muestra como un ítem de primer nivel, sin acordeón
+        return `<div class="cats-group open"><div class="cats-group-items" style="padding-left:6px;display:block;">${itemsHtml}</div></div>`;
+      }
+      return `
+        <div class="cats-group ${open?'open':''}" data-group="${escaparHtml(g.name)}">
+          <button class="cats-group-head" data-gtoggle="${escaparHtml(g.name)}">
+            <svg class="gh-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><polyline points="9 18 15 12 9 6"/></svg>
+            ${escaparHtml(g.name)}
+          </button>
+          <div class="cats-group-items">${itemsHtml}</div>
+        </div>`;
+    }).join('');
+
+  body.querySelectorAll('[data-cat]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       activeCat = btn.dataset.cat;
       renderCategories();
       renderGrid();
+      closeCatsPanel();
+    });
+  });
+  body.querySelectorAll('[data-gtoggle]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const name = btn.dataset.gtoggle;
+      if(expandedGroups.has(name)) expandedGroups.delete(name);
+      else expandedGroups.add(name);
+      renderCategories();
     });
   });
 }
+
+function openCatsPanel(){
+  document.getElementById('catsPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeCatsPanel(){
+  document.getElementById('catsPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+document.getElementById('openCatsPanel').addEventListener('click', openCatsPanel);
+document.getElementById('closeCatsPanel').addEventListener('click', closeCatsPanel);
 
 // Sin stock si lo marcaste a mano, o si tiene opciones y todas están agotadas.
 function sinStock(p){
@@ -1644,15 +2033,33 @@ function precioViejo(p){
   return old;
 }
 
+// Texto del cartel de oferta: el que escribió el admin, o si no el % calculado.
+function ofertaLabel(p){
+  const old = precioViejo(p);
+  if(old == null) return null;
+  if(p.ofertaTexto) return p.ofertaTexto;
+  const pct = Math.round((1 - Number(p.price)/old) * 100);
+  return pct > 0 ? `${pct}% OFF` : 'Oferta';
+}
+
+// Las tres etiquetas apilables (destacado / nuevo / más vendido) de una tarjeta.
+function productBadges(p){
+  const list = [];
+  if(p.featured) list.push({cls:'b-fav', text:'★ Destacado'});
+  if(p.nuevo) list.push({cls:'b-new', text:'🆕 Nuevo'});
+  if(p.masVendido) list.push({cls:'b-hot', text:'💥 Más vendido'});
+  return list;
+}
+
 function priceLabel(p){
   if(p.variants && p.variants.length){
     const prices = p.variants.map(v=>unitPrice(p, v.name)).filter(x=>x!=null);
     if(prices.length===0) return '—';
     const min = Math.min(...prices), max = Math.max(...prices);
-    return min===max ? `$ ${min}` : `$ ${min} – $ ${max}`;
+    return min===max ? plata(min) : `${plata(min)} – ${plata(max)}`;
   }
   const pr = unitPrice(p, null);
-  return pr==null ? '—' : `$ ${pr}`;
+  return pr==null ? '—' : plata(pr);
 }
 
 function cartKey(id, variantName){ return id + '|' + (variantName || ''); }
@@ -1691,24 +2098,24 @@ function renderGrid(){
       <div class="card-variant">
         <label>${p.variantLabel || 'Opción'}</label>
         <select data-variant-for="${p.id}">
-          ${opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — $${unitPrice(p, v.name)}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('')}
+          ${opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — ${plata(unitPrice(p, v.name))}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('')}
         </select>
       </div>` : '';
     return `
     <div class="card ${out?'out':''}">
       <div class="card-media" data-detail="${p.id}">
         ${mediaHTML(p)}
-        <span class="card-tag">${catLabels(p).join(' · ')}</span>
-        ${p.featured && !out ? `<span class="fav-tag">★ Destacado</span>` : ''}
+        ${(!out && productBadges(p).length) ? `<div class="badge-stack">${productBadges(p).map(b=>`<span class="tag-badge ${b.cls}">${b.text}</span>`).join('')}</div>` : ''}
         ${out ? `<div class="out-tag">Sin stock</div>` : ''}
-        ${(!out && precioViejo(p)) ? `<span class="sale-tag">Oferta</span>` : ''}
+        ${(!out && ofertaLabel(p)) ? `<span class="sale-tag">🔥 ${escaparHtml(ofertaLabel(p))}</span>` : ''}
         ${pocoStock(p) ? `<span class="low-tag">¡Quedan pocas!</span>` : ''}
         ${(p.imgs && p.imgs.length>1) ? `<span class="gal-count">${p.imgs.length} fotos</span>` : ''}
       </div>
       <div class="card-body">
-        <div class="card-name">${p.name}</div>
-        <div class="card-price" data-price-for="${p.id}">${priceLabel(p)}${precioViejo(p) ? `<span class="price-old">$ ${precioViejo(p)}</span>` : ''}</div>
-        ${p.desc ? `<div class="card-desc">${p.desc}</div>` : ''}
+        ${catLabels(p).length ? `<span class="card-cat">${escaparHtml(catLabels(p).join(' · '))}</span>` : ''}
+        <div class="card-name">${escaparHtml(p.name)}</div>
+        <div class="card-price" data-price-for="${p.id}">${priceLabel(p)}${precioViejo(p) ? `<span class="price-old">${plata(precioViejo(p))}</span>` : ''}</div>
+        ${p.desc ? `<div class="card-desc">${escaparHtml(p.desc)}</div>` : ''}
         ${mode==='mayor' && !out ? `<div class="card-min">Mínimo ${MIN_MAYOR} unidades</div>` : ''}
         ${out ? '' : variantUI}
         <button class="card-add" data-id="${p.id}" ${out?'disabled':''}>
@@ -1731,7 +2138,7 @@ function renderGrid(){
       const pr = unitPrice(p, sel.value);
       if(pr!=null && priceEl){
         const vj = precioViejo(p);
-        priceEl.innerHTML = `$ ${pr}` + (vj ? `<span class="price-old">$ ${vj}</span>` : '');
+        priceEl.innerHTML = plata(pr) + (vj ? `<span class="price-old">${plata(vj)}</span>` : '');
       }
     };
     sel.addEventListener('change', sync);
@@ -1821,7 +2228,7 @@ function renderDrawer(){
         <div class="di-media">${mediaHTML(it.p)}</div>
         <div class="di-body">
           <div class="di-name">${it.label}</div>
-          <div class="di-price">$ ${it.price} c/u${mode==='mayor'?' (por mayor)':''}</div>
+          <div class="di-price">${plata(it.price)} c/u${mode==='mayor'?' (por mayor)':''}</div>
           <div class="di-qty">
             <button class="qty-btn" data-act="minus" data-key="${key}">−</button>
             <span>${qty}</span>
@@ -1833,7 +2240,7 @@ function renderDrawer(){
     `;
   }).join('');
 
-  document.getElementById('cartTotal').textContent = '$' + total;
+  document.getElementById('cartTotal').textContent = plata(total);
 
   const ship = document.getElementById('shipNote');
   if(settings.envio && settings.envio.trim()){
@@ -2024,7 +2431,7 @@ async function descargarCatalogoPdf(){
     doc.setFont('helvetica','bold');
     doc.setFontSize(11);
     doc.setTextColor(acento[0], acento[1], acento[2]);
-    const txtMenor = 'Menor: $' + (p.price != null ? p.price : '-');
+    const txtMenor = 'Menor: ' + (p.price != null ? plata(p.price) : '-');
     doc.text(txtMenor, x, y + IMG + 12.5);
     doc.setTextColor(0,0,0);
     if(p.priceOld && Number(p.priceOld) > Number(p.price)){
@@ -2032,7 +2439,7 @@ async function descargarCatalogoPdf(){
       doc.setFont('helvetica','normal');
       doc.setFontSize(8.5);
       doc.setTextColor(suave[0], suave[1], suave[2]);
-      const txtViejo = '$' + p.priceOld;
+      const txtViejo = plata(p.priceOld);
       doc.text(txtViejo, x + wMenor + 3, y + IMG + 12.5);
       const wViejo = doc.getTextWidth(txtViejo);
       doc.setLineWidth(0.3);
@@ -2045,7 +2452,7 @@ async function descargarCatalogoPdf(){
     doc.setFontSize(9.5);
     doc.setTextColor(suave[0], suave[1], suave[2]);
     const may = (p.priceMayor != null && p.priceMayor !== '')
-      ? ('Mayor: $' + p.priceMayor + '  (desde ' + MIN_MAYOR + ' u.)')
+      ? ('Mayor: ' + plata(p.priceMayor) + '  (desde ' + MIN_MAYOR + ' u.)')
       : 'Mayor: consultar';
     doc.text(may, x, y + IMG + 18);
 
@@ -2104,24 +2511,106 @@ function armarPedido(){
   };
 }
 
-function codificarPedido(o){
-  const json = JSON.stringify(o);
-  return btoa(unescape(encodeURIComponent(json)))
+function aBase64Url(texto){
+  return btoa(unescape(encodeURIComponent(texto)))
     .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 }
-
-function decodificarPedido(txt){
+function deBase64Url(txt){
   let b = String(txt).replace(/-/g,'+').replace(/_/g,'/');
   while(b.length % 4) b += '=';
-  return JSON.parse(decodeURIComponent(escape(atob(b))));
+  return decodeURIComponent(escape(atob(b)));
+}
+
+/* Formato corto del enlace (#p=): número|fecha|mayor|cliente|localidad|ítem|ítem…
+   Cada ítem es id,cantidad,precio,talle. Los enteros van en base 36 y los nombres
+   de los productos no viajan: se leen del catálogo al abrir el enlace. */
+function textoCorto(s){
+  return String(s || '').replace(/[%|,]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+}
+function numCorto(n){
+  n = Number(n) || 0;
+  return (Number.isInteger(n) && n >= 0) ? n.toString(36) : String(n);
+}
+function leerNumCorto(s){
+  return String(s).includes('.') ? parseFloat(s) : parseInt(s, 36);
+}
+
+function codificarPedido(o){
+  const items = o.i.map(([id, , talle, qty, precio]) =>
+    [numCorto(id), numCorto(qty), numCorto(precio), textoCorto(talle)].join(',').replace(/,+$/, ''));
+  return aBase64Url([o.n, numCorto(Math.floor(o.f / 1000)), o.m ? 1 : '', textoCorto(o.c), textoCorto(o.e)]
+    .concat(items).join('|'));
+}
+
+function decodificarPedidoCorto(txt){
+  const [n, f, m, c, e, ...items] = deBase64Url(txt).split('|');
+  return {
+    n, f: parseInt(f, 36) * 1000, m: m === '1' ? 1 : 0,
+    c: decodeURIComponent(c || ''), e: decodeURIComponent(e || ''),
+    i: items.filter(Boolean).map(it => {
+      const [id, qty, precio, talle] = it.split(',');
+      const pid = parseInt(id, 36);
+      const p = PRODUCTS.find(x => x.id === pid);
+      return [pid, p ? p.name : 'Producto que ya no está en la tienda',
+              decodeURIComponent(talle || ''), parseInt(qty, 36), leerNumCorto(precio)];
+    })
+  };
+}
+
+// Formato viejo (#pedido=): el pedido entero en JSON. Se sigue leyendo para los enlaces ya enviados.
+function decodificarPedido(txt){
+  return JSON.parse(deBase64Url(txt));
+}
+
+function baseTienda(){
+  if(!/^https?:$/.test(location.protocol)) return '';   // abierto desde la compu: no sirve
+  return location.origin + location.pathname.replace(/index\.html$/, '');
 }
 
 function enlacePedido(o){
-  if(!/^https?:$/.test(location.protocol)) return '';   // abierto desde la compu: no sirve
-  return location.href.split('#')[0] + '#pedido=' + codificarPedido(o);
+  const base = baseTienda();
+  return base ? base + '#p=' + codificarPedido(o) : '';
 }
 
-function buildWhatsappMessage(o){
+/* ---- Enlace cortito (#k=CODIGO): el pedido se guarda en Supabase ----
+   La clave es pública a propósito: solo deja guardar un pedido y leer uno
+   por su código (no se puede listar ni borrar nada). Si Supabase no responde,
+   se usa el enlace largo #p= de siempre, así el pedido nunca se pierde. */
+const SUPABASE_URL = 'https://ajhsumlhiuqkbnlsogod.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_pGWn7baL1qdksfUvSbWQGg_lVEXfpdr';
+
+async function llamarSupabase(funcion, datos, msMax){
+  const ctrl = new AbortController();
+  const corte = setTimeout(()=> ctrl.abort(), msMax);
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${funcion}`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+      signal: ctrl.signal
+    });
+    if(!r.ok) throw new Error('Supabase ' + r.status);
+    return await r.json();
+  }finally{
+    clearTimeout(corte);
+  }
+}
+
+async function enlacePedidoCorto(o){
+  const base = baseTienda();
+  if(!base) return '';
+  try{
+    const codigo = await llamarSupabase('crear_pedido', { datos: o }, 5000);
+    if(typeof codigo === 'string' && /^[a-z0-9]+$/.test(codigo)) return base + '#k=' + codigo;
+  }catch(e){}
+  return enlacePedido(o);   // plan B: el enlace largo
+}
+
+async function buscarPedido(codigo){
+  return await llamarSupabase('get_pedido', { codigo }, 10000);
+}
+
+function buildWhatsappMessage(o, link){
   let lines = [];
   let total = 0;
 
@@ -2139,18 +2628,17 @@ function buildWhatsappMessage(o){
   o.i.forEach(([id, nombre, talle, qty, precio])=>{
     total += precio * qty;
     const label = talle ? `${nombre} (${talle})` : nombre;
-    for(let k=0; k<qty; k++){
-      lines.push(`• ${label} — $${precio}`);
-    }
+    lines.push(qty > 1
+      ? `• ${label} × ${qty} — ${plata(precio * qty)} (${plata(precio)} c/u)`
+      : `• ${label} — ${plata(precio)}`);
   });
 
   lines.push('');
-  lines.push(`Total: $${total}`);
+  lines.push(`Total: ${plata(total)}`);
 
   const cierre = String(settings.cierre !== undefined ? settings.cierre : DEFAULTS.cierre).trim();
   if(cierre) lines.push('', cierre);
 
-  const link = enlacePedido(o);
   if(link) lines.push('', 'Ver pedido con fotos:', link);
 
   return encodeURIComponent(lines.join('\n'));
@@ -2158,13 +2646,13 @@ function buildWhatsappMessage(o){
 
 /* ---- La "factura" ---- */
 
-function mostrarPedido(codigo){
+function mostrarPedido(codigo, decodificar, textoError){
   const sheet = document.getElementById('pedidoSheet');
   let o;
-  try{ o = decodificarPedido(codigo); }catch(e){ o = null; }
+  try{ o = decodificar(codigo); }catch(e){ o = null; }
 
   if(!o || !Array.isArray(o.i)){
-    sheet.innerHTML = '<div class="ps-error">No se pudo leer este pedido. Puede que el enlace se haya cortado al copiarlo.</div>';
+    sheet.innerHTML = '<div class="ps-error">' + (textoError || 'No se pudo leer este pedido. Puede que el enlace se haya cortado al copiarlo.') + '</div>';
   }else{
     const { fecha, hora } = fechaPedido(o.f);
     let total = 0, unidades = 0;
@@ -2244,16 +2732,37 @@ document.getElementById('overlay').addEventListener('click', closeDrawer);
 function closeDrawer(){
   document.getElementById('drawer').classList.remove('open');
   document.getElementById('settings').classList.remove('open');
+  document.getElementById('catsPanel').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
 }
 
-document.getElementById('sendWhatsapp').addEventListener('click', ()=>{
-  if(Object.keys(cart).length===0) return;
+document.getElementById('sendWhatsapp').addEventListener('click', async ()=>{
+  const btn = document.getElementById('sendWhatsapp');
+  if(Object.keys(cart).length===0 || btn.disabled) return;
+  if(!numeroLimpio()){ abrirWhatsapp(null); return; }
   const o = armarPedido();
   try{
     localStorage.setItem('tirokisha_cliente', JSON.stringify({c:o.c, e:o.e}));
   }catch(e){}
-  abrirWhatsapp(linkWhatsapp(buildWhatsappMessage(o)));
+
+  // Abrimos la pestaña ya (si esperamos a Supabase, el celular la bloquea)
+  // y le ponemos la dirección de WhatsApp cuando el pedido está guardado.
+  const win = window.open('', '_blank');
+  const textoOriginal = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Preparando tu pedido…';
+  try{
+    const url = linkWhatsapp(buildWhatsappMessage(o, await enlacePedidoCorto(o)));
+    if(win && !win.closed){
+      try{ win.opener = null; }catch(e){}
+      win.location.href = url;
+    }else{
+      window.location.href = url;
+    }
+  }finally{
+    btn.disabled = false;
+    btn.innerHTML = textoOriginal;
+  }
 });
 
 // Si ya compró antes en este dispositivo, le completamos nombre y lugar.
@@ -2289,7 +2798,13 @@ const DEFAULTS = {
   colMustard: '#FFC53D',
   colTurq: '#17BEBB',
   colCream: '#FFF0F5',
-  adv: {}
+  adv: {},
+  bannerOn: false,
+  bannerTexto: '',
+  bannerSub: '',
+  bannerLink: '',
+  instagram: '',
+  minMayor: 3
 };
 
 /* Colores detallados. value(s) calcula el automático a partir de los 5 base. */
@@ -2315,6 +2830,8 @@ function advValue(k){
 }
 
 const DEFAULT_LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 14.5c-3.2 0-6 2.1-6 4.8 0 1 .8 1.7 1.9 1.5 1.2-.2 2.6-.6 4.1-.6s2.9.4 4.1.6c1.1.2 1.9-.5 1.9-1.5 0-2.7-2.8-4.8-6-4.8z" fill="currentColor"/><circle cx="6.5" cy="9.5" r="2.2" fill="currentColor"/><circle cx="17.5" cy="9.5" r="2.2" fill="currentColor"/><circle cx="9.5" cy="6" r="2" fill="currentColor"/><circle cx="14.5" cy="6" r="2" fill="currentColor"/></svg>`;
+// Guarda el favicon original (la huellita) para poder volver a él si se borra el logo propio.
+const DEFAULT_FAVICON_HREF = document.getElementById('favicon').getAttribute('href');
 
 let settings = Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem('tirokisha_settings') || '{}'));
 settings.adv = Object.assign({}, settings.adv);
@@ -2355,6 +2872,10 @@ function applySettings(){
     ? `<img src="${settings.logo}" alt="${settings.brand}">`
     : DEFAULT_LOGO_SVG;
 
+  const favicon = document.getElementById('favicon');
+  if(settings.logo) favicon.setAttribute('href', settings.logo);
+  else favicon.setAttribute('href', DEFAULT_FAVICON_HREF);
+
   document.getElementById('heroSlot').innerHTML = settings.hero
     ? `<img src="${settings.hero}" alt="${settings.brand}">`
     : `<svg class="hero-paw" viewBox="0 0 200 200" fill="none">
@@ -2365,6 +2886,31 @@ function applySettings(){
         <circle cx="122" cy="50" r="16.5" fill="currentColor"/>
       </svg>`;
   document.getElementById('heroSlot').style.color = settings.colForest;
+
+  MIN_MAYOR = Number(settings.minMayor) > 0 ? Number(settings.minMayor) : 3;
+
+  const banner = document.getElementById('promoBanner');
+  const bannerTexto = (settings.bannerTexto || '').trim();
+  if(settings.bannerOn && bannerTexto){
+    document.getElementById('promoText').textContent = bannerTexto;
+    document.getElementById('promoSub').textContent = settings.bannerSub || '';
+    const link = (settings.bannerLink || '').trim();
+    if(link){ banner.href = link; banner.style.cursor = 'pointer'; }
+    else{ banner.removeAttribute('href'); banner.style.cursor = 'default'; }
+    banner.style.display = 'flex';
+  }else{
+    banner.style.display = 'none';
+  }
+
+  const ig = document.getElementById('igFloat');
+  const igHandle = (settings.instagram || '').trim();
+  if(igHandle){
+    const url = igHandle.startsWith('http') ? igHandle : `https://instagram.com/${igHandle.replace(/^@/,'')}`;
+    ig.setAttribute('href', url);
+    ig.style.display = 'flex';
+  }else{
+    ig.style.display = 'none';
+  }
 }
 
 function saveSettings(){
@@ -2396,6 +2942,12 @@ function fillSettingsForm(){
   document.getElementById('colMustard').value = settings.colMustard;
   document.getElementById('colTurq').value = settings.colTurq;
   document.getElementById('colCream').value = settings.colCream;
+  document.getElementById('inBannerOn').checked = !!settings.bannerOn;
+  document.getElementById('inBannerTexto').value = settings.bannerTexto || '';
+  document.getElementById('inBannerSub').value = settings.bannerSub || '';
+  document.getElementById('inBannerLink').value = settings.bannerLink || '';
+  document.getElementById('inInstagram').value = settings.instagram || '';
+  document.getElementById('inMinMayor').value = settings.minMayor ?? DEFAULTS.minMayor;
   renderAdvColors();
 }
 
@@ -2441,7 +2993,9 @@ const fieldMap = {
   inSaludo:'saludo', inCierre:'cierre', inPdfPropio:'pdfPropio',
   inGuiaTalles:'guiaTalles', inGuiaNota:'guiaNota',
   colForest:'colForest', colCoral:'colCoral', colMustard:'colMustard',
-  colTurq:'colTurq', colCream:'colCream'
+  colTurq:'colTurq', colCream:'colCream',
+  inBannerTexto:'bannerTexto', inBannerSub:'bannerSub', inBannerLink:'bannerLink',
+  inInstagram:'instagram', inMinMayor:'minMayor'
 };
 Object.keys(fieldMap).forEach(elId=>{
   document.getElementById(elId).addEventListener('input', e=>{
@@ -2449,6 +3003,11 @@ Object.keys(fieldMap).forEach(elId=>{
     saveSettings();
     if(elId.startsWith('col')) renderAdvColors();
   });
+});
+
+document.getElementById('inBannerOn').addEventListener('change', e=>{
+  settings.bannerOn = e.target.checked;
+  saveSettings();
 });
 
 document.getElementById('logoInput').addEventListener('change', e=>{
@@ -2482,6 +3041,24 @@ function abrirPanel(){
   document.getElementById('settings').classList.add('open');
   document.getElementById('overlay').classList.add('open');
 }
+
+// Índice rápido arriba del panel: uno por cada sección (.set-group con id),
+// para no tener que scrollear buscando dónde está cada cosa.
+function buildSettingsIndex(){
+  const nav = document.getElementById('settingsIndex');
+  const groups = document.querySelectorAll('.settings-body > .set-group[id]');
+  nav.innerHTML = Array.from(groups).map(g=>{
+    const label = g.querySelector('h4')?.textContent || g.id;
+    return `<a href="#" data-goto="${g.id}">${label}</a>`;
+  }).join('');
+  nav.querySelectorAll('[data-goto]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      document.getElementById(a.dataset.goto)?.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+buildSettingsIndex();
 
 function verificarPin(){
   const val = document.getElementById('pinInput').value;
@@ -2564,7 +3141,7 @@ function renderAdmProducts(){
         ${p.img?`<img src="${p.img}" alt="">`:''}
       </div>
       <div class="adm-info">
-        <div class="adm-name">${p.name}</div>
+        <div class="adm-name">${escaparHtml(p.name)}</div>
         <div class="adm-meta">${priceLabel(p)} · ${catLabels(p).join(', ') || 'sin categoría'}${(p.variants&&p.variants.length)?` · ${p.variants.length} ${p.variantLabel||'opciones'}`:''}${hasMayor(p)?' · por mayor ✓':''}${p.featured?' · ★':''}${p.stock===false?' · SIN STOCK':(pocoStock(p)?' · queda poco':'')}</div>
       </div>
       <button class="adm-act" data-edit="${p.id}">Editar</button>
@@ -2692,9 +3269,12 @@ function openProductModal(id){
   document.getElementById('prodDesc').value = p ? (p.desc || '') : '';
   document.getElementById('prodStock').checked = p ? (p.stock !== false) : true;
   document.getElementById('prodFeatured').checked = p ? !!p.featured : false;
+  document.getElementById('prodNuevo').checked = p ? !!p.nuevo : false;
+  document.getElementById('prodMasVendido').checked = p ? !!p.masVendido : false;
   document.getElementById('prodPrice').value = p ? (p.price ?? '') : '';
   document.getElementById('prodPriceMayor').value = p ? (p.priceMayor ?? '') : '';
   document.getElementById('prodPriceOld').value = p ? (p.priceOld ?? '') : '';
+  document.getElementById('prodOfertaTexto').value = p ? (p.ofertaTexto || '') : '';
   document.getElementById('prodLowStock').checked = p ? !!p.lowStock : false;
   draftImgs = p ? (p.imgs && p.imgs.length ? p.imgs.slice() : (p.img ? [p.img] : [])) : [];
   draftImg = draftImgs[0] || null;
@@ -2855,7 +3435,10 @@ document.getElementById('prodSave').addEventListener('click', ()=>{
     desc: document.getElementById('prodDesc').value.trim(),
     stock: document.getElementById('prodStock').checked,
     lowStock: document.getElementById('prodLowStock').checked,
-    featured: document.getElementById('prodFeatured').checked
+    featured: document.getElementById('prodFeatured').checked,
+    nuevo: document.getElementById('prodNuevo').checked,
+    masVendido: document.getElementById('prodMasVendido').checked,
+    ofertaTexto: document.getElementById('prodOfertaTexto').value.trim()
   };
 
   if(editingProductId){
@@ -2884,8 +3467,8 @@ function renderAdmCats(){
     return `
       <div class="adm-item">
         <div class="adm-info">
-          <div class="adm-name">${c.label}</div>
-          <div class="adm-meta">${count} ${count===1?'producto':'productos'}</div>
+          <div class="adm-name">${escaparHtml(c.label)}</div>
+          <div class="adm-meta">${count} ${count===1?'producto':'productos'}${c.group?` · grupo: ${escaparHtml(c.group)}`:''}</div>
         </div>
         <button class="adm-act" data-cedit="${c.id}">Editar</button>
         <button class="adm-act del" data-cdel="${c.id}">Borrar</button>
@@ -2921,6 +3504,11 @@ function openCatModal(id){
   const c = id ? CATEGORIES.find(x=>x.id===id) : null;
   document.getElementById('catModalTitle').textContent = c ? 'Editar categoría' : 'Nueva categoría';
   document.getElementById('catLabel').value = c ? c.label : '';
+  document.getElementById('catGroup').value = c ? (c.group || '') : (catGroups().find(g=>g.name)?.name || '');
+
+  const grupos = [...new Set(CATEGORIES.map(x=>x.group).filter(Boolean))];
+  document.getElementById('catGroupList').innerHTML = grupos.map(g=>`<option value="${escaparHtml(g)}">`).join('');
+
   openModal('catModal');
 }
 
@@ -2928,15 +3516,19 @@ document.getElementById('addCat').addEventListener('click', ()=>openCatModal(nul
 
 document.getElementById('catSave').addEventListener('click', ()=>{
   const label = document.getElementById('catLabel').value.trim();
+  const group = document.getElementById('catGroup').value.trim() || null;
   if(!label){ alert('Poné un nombre a la categoría.'); return; }
 
   if(editingCatId){
-    CATEGORIES.find(x=>x.id===editingCatId).label = label;
+    const c = CATEGORIES.find(x=>x.id===editingCatId);
+    c.label = label;
+    c.group = group;
   }else{
     let id = slugify(label);
     while(CATEGORIES.some(c=>c.id===id)) id += '-2';
-    CATEGORIES.push({id, label});
+    CATEGORIES.push({id, label, group});
   }
+  expandedGroups = null; // recalcula qué grupos mostrar abiertos
   saveCatalog();
   closeModals();
   refreshAll();
@@ -2953,13 +3545,16 @@ document.getElementById('clearHero').addEventListener('click', ()=>{
   settings.hero = null; saveSettings();
 });
 
-/* ---- Botones del inicio: bajar a cada sección ---- */
-function scrollToEl(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
 document.getElementById('goCatalog').addEventListener('click', descargarCatalogoPdf);
-document.getElementById('goCats').addEventListener('click', ()=>scrollToEl('categorias'));
+document.getElementById('goCats').addEventListener('click', openCatsPanel);
+
+const topFloat = document.getElementById('topFloat');
+window.addEventListener('scroll', ()=>{
+  topFloat.classList.toggle('show', window.scrollY > 1200);
+}, {passive:true});
+topFloat.addEventListener('click', ()=>{
+  document.getElementById('catalogo').scrollIntoView({behavior:'smooth', block:'start'});
+});
 
 /* ---- Ficha ampliada del producto ---- */
 let detailId = null;
@@ -2974,14 +3569,14 @@ function openDetail(id){
   const media = document.getElementById('detailMedia');
   media.style.background = imgs.length ? 'transparent' : p.color;
   media.innerHTML = imgs.length
-    ? `<img src="${imgs[0]}" alt="${p.name}" id="detailMainImg">`
+    ? `<img src="${imgs[0]}" alt="${escaparHtml(p.name)}" id="detailMainImg" data-fallback-color="${p.color}" onerror="mediaImgError(this)">`
     : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${pawSVG}</div>`;
 
   const thumbs = document.getElementById('detailThumbs');
   if(imgs.length > 1){
     thumbs.style.display = 'flex';
     thumbs.innerHTML = imgs.map((src,i)=>
-      `<button class="gal-thumb ${i===0?'sel':''}" data-di="${i}"><img src="${src}" alt=""></button>`
+      `<button class="gal-thumb ${i===0?'sel':''}" data-di="${i}"><img src="${src}" alt="" loading="lazy" decoding="async"></button>`
     ).join('');
     thumbs.querySelectorAll('[data-di]').forEach(b=>{
       b.addEventListener('click', ()=>{
@@ -3007,8 +3602,8 @@ function openDetail(id){
   if(opts.length && !out){
     wrap.style.display = 'block';
     document.getElementById('detailVariantLabel').textContent = p.variantLabel || 'Opción';
-    sel.innerHTML = opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — $${unitPrice(p, v.name)}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('');
-    const sync = ()=>{ priceEl.textContent = `$ ${unitPrice(p, sel.value)}`; };
+    sel.innerHTML = opts.map(v=>`<option value="${v.name}" ${v.out?'disabled':''}>${v.name} — ${plata(unitPrice(p, v.name))}${v.out?' (agotado)':(v.low?' (queda poco)':'')}</option>`).join('');
+    const sync = ()=>{ priceEl.textContent = plata(unitPrice(p, sel.value)); };
     sel.onchange = sync;
     sync();
   }else{
@@ -3047,8 +3642,23 @@ function linkProducto(p){
 
 function abrirDesdeEnlace(){
   const crudo = (location.hash || '').replace(/^#/, '');
+  if(crudo.startsWith('k=')){
+    const codigo = crudo.slice(2).replace(/[^a-z0-9]/g, '');
+    const sheet = document.getElementById('pedidoSheet');
+    sheet.innerHTML = '<div class="ps-error">Cargando pedido…</div>';
+    document.body.classList.add('viendo-pedido');
+    document.getElementById('pedidoView').setAttribute('aria-hidden','false');
+    buscarPedido(codigo)
+      .then(o => mostrarPedido(o, x => x, 'No encontramos este pedido. Revisá que el enlace esté completo.'))
+      .catch(() => mostrarPedido(null, () => null, 'No se pudo cargar el pedido. Revisá tu conexión y volvé a abrir el enlace.'));
+    return;
+  }
+  if(crudo.startsWith('p=')){
+    mostrarPedido(crudo.slice(2), decodificarPedidoCorto);
+    return;
+  }
   if(crudo.startsWith('pedido=')){
-    mostrarPedido(crudo.slice(7));
+    mostrarPedido(crudo.slice(7), decodificarPedido);
     return;
   }
   const h = decodeURIComponent(crudo).trim();
@@ -3084,7 +3694,9 @@ document.getElementById('detailShare').addEventListener('click', async ()=>{
 /* ---- Guía de talles ---- */
 
 function escaparHtml(t){
-  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(t ?? '').replace(/[&<>"']/g, c=>({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
 }
 
 function textoGuia(){
@@ -3145,10 +3757,51 @@ document.getElementById('detailAdd').addEventListener('click', ()=>{
 document.getElementById('searchInput').addEventListener('input', e=>{
   searchTerm = e.target.value;
   renderGrid();
+  renderSearchSuggest();
 });
+document.getElementById('searchInput').addEventListener('focus', renderSearchSuggest);
 document.getElementById('sortSelect').addEventListener('change', e=>{
   sortBy = e.target.value;
   renderGrid();
+});
+
+// Sugerencias mientras se escribe: hasta 6 productos que coincidan por nombre o categoría.
+function renderSearchSuggest(){
+  const box = document.getElementById('searchSuggest');
+  const q = norm(searchTerm);
+  if(!q){ box.classList.remove('open'); box.innerHTML=''; return; }
+  const matches = PRODUCTS.filter(p=>
+    norm(p.name).includes(q) || catLabels(p).some(l=>norm(l).includes(q))
+  ).slice(0, 6);
+  if(!matches.length){ box.classList.remove('open'); box.innerHTML=''; return; }
+  box.innerHTML = matches.map(p=>
+    `<button type="button" data-sg="${p.id}">${escaparHtml(p.name)} <small>· ${escaparHtml(catLabels(p)[0]||'')}</small></button>`
+  ).join('');
+  box.querySelectorAll('[data-sg]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      box.classList.remove('open');
+      document.getElementById('searchInput').value = '';
+      searchTerm = '';
+      renderGrid();
+      openDetail(Number(btn.dataset.sg));
+    });
+  });
+  box.classList.add('open');
+}
+document.addEventListener('click', e=>{
+  const box = document.getElementById('searchSuggest');
+  if(!box.contains(e.target) && e.target.id!=='searchInput') box.classList.remove('open');
+});
+
+// Filtros rápidos: ofertas / destacados / nuevos. Tocar el que ya está activo lo apaga.
+document.querySelectorAll('.quick-filter').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const val = btn.dataset.qf;
+    quickFilter = (quickFilter === val) ? null : val;
+    document.querySelectorAll('.quick-filter').forEach(b=>
+      b.classList.toggle('on', b.dataset.qf === quickFilter));
+    renderGrid();
+  });
 });
 
 /* ---- WhatsApp: armado y apertura del link ---- */
