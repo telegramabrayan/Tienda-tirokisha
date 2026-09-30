@@ -2562,13 +2562,55 @@ function decodificarPedido(txt){
   return JSON.parse(deBase64Url(txt));
 }
 
-function enlacePedido(o){
+function baseTienda(){
   if(!/^https?:$/.test(location.protocol)) return '';   // abierto desde la compu: no sirve
-  const base = location.origin + location.pathname.replace(/index\.html$/, '');
-  return base + '#p=' + codificarPedido(o);
+  return location.origin + location.pathname.replace(/index\.html$/, '');
 }
 
-function buildWhatsappMessage(o){
+function enlacePedido(o){
+  const base = baseTienda();
+  return base ? base + '#p=' + codificarPedido(o) : '';
+}
+
+/* ---- Enlace cortito (#k=CODIGO): el pedido se guarda en Supabase ----
+   La clave es pública a propósito: solo deja guardar un pedido y leer uno
+   por su código (no se puede listar ni borrar nada). Si Supabase no responde,
+   se usa el enlace largo #p= de siempre, así el pedido nunca se pierde. */
+const SUPABASE_URL = 'https://ajhsumlhiuqkbnlsogod.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_pGWn7baL1qdksfUvSbWQGg_lVEXfpdr';
+
+async function llamarSupabase(funcion, datos, msMax){
+  const ctrl = new AbortController();
+  const corte = setTimeout(()=> ctrl.abort(), msMax);
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${funcion}`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+      signal: ctrl.signal
+    });
+    if(!r.ok) throw new Error('Supabase ' + r.status);
+    return await r.json();
+  }finally{
+    clearTimeout(corte);
+  }
+}
+
+async function enlacePedidoCorto(o){
+  const base = baseTienda();
+  if(!base) return '';
+  try{
+    const codigo = await llamarSupabase('crear_pedido', { datos: o }, 5000);
+    if(typeof codigo === 'string' && /^[a-z0-9]+$/.test(codigo)) return base + '#k=' + codigo;
+  }catch(e){}
+  return enlacePedido(o);   // plan B: el enlace largo
+}
+
+async function buscarPedido(codigo){
+  return await llamarSupabase('get_pedido', { codigo }, 10000);
+}
+
+function buildWhatsappMessage(o, link){
   let lines = [];
   let total = 0;
 
@@ -2597,7 +2639,6 @@ function buildWhatsappMessage(o){
   const cierre = String(settings.cierre !== undefined ? settings.cierre : DEFAULTS.cierre).trim();
   if(cierre) lines.push('', cierre);
 
-  const link = enlacePedido(o);
   if(link) lines.push('', 'Ver pedido con fotos:', link);
 
   return encodeURIComponent(lines.join('\n'));
@@ -2605,13 +2646,13 @@ function buildWhatsappMessage(o){
 
 /* ---- La "factura" ---- */
 
-function mostrarPedido(codigo, decodificar){
+function mostrarPedido(codigo, decodificar, textoError){
   const sheet = document.getElementById('pedidoSheet');
   let o;
   try{ o = decodificar(codigo); }catch(e){ o = null; }
 
   if(!o || !Array.isArray(o.i)){
-    sheet.innerHTML = '<div class="ps-error">No se pudo leer este pedido. Puede que el enlace se haya cortado al copiarlo.</div>';
+    sheet.innerHTML = '<div class="ps-error">' + (textoError || 'No se pudo leer este pedido. Puede que el enlace se haya cortado al copiarlo.') + '</div>';
   }else{
     const { fecha, hora } = fechaPedido(o.f);
     let total = 0, unidades = 0;
@@ -2695,13 +2736,33 @@ function closeDrawer(){
   document.getElementById('overlay').classList.remove('open');
 }
 
-document.getElementById('sendWhatsapp').addEventListener('click', ()=>{
-  if(Object.keys(cart).length===0) return;
+document.getElementById('sendWhatsapp').addEventListener('click', async ()=>{
+  const btn = document.getElementById('sendWhatsapp');
+  if(Object.keys(cart).length===0 || btn.disabled) return;
+  if(!numeroLimpio()){ abrirWhatsapp(null); return; }
   const o = armarPedido();
   try{
     localStorage.setItem('tirokisha_cliente', JSON.stringify({c:o.c, e:o.e}));
   }catch(e){}
-  abrirWhatsapp(linkWhatsapp(buildWhatsappMessage(o)));
+
+  // Abrimos la pestaña ya (si esperamos a Supabase, el celular la bloquea)
+  // y le ponemos la dirección de WhatsApp cuando el pedido está guardado.
+  const win = window.open('', '_blank');
+  const textoOriginal = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Preparando tu pedido…';
+  try{
+    const url = linkWhatsapp(buildWhatsappMessage(o, await enlacePedidoCorto(o)));
+    if(win && !win.closed){
+      try{ win.opener = null; }catch(e){}
+      win.location.href = url;
+    }else{
+      window.location.href = url;
+    }
+  }finally{
+    btn.disabled = false;
+    btn.innerHTML = textoOriginal;
+  }
 });
 
 // Si ya compró antes en este dispositivo, le completamos nombre y lugar.
@@ -3581,6 +3642,17 @@ function linkProducto(p){
 
 function abrirDesdeEnlace(){
   const crudo = (location.hash || '').replace(/^#/, '');
+  if(crudo.startsWith('k=')){
+    const codigo = crudo.slice(2).replace(/[^a-z0-9]/g, '');
+    const sheet = document.getElementById('pedidoSheet');
+    sheet.innerHTML = '<div class="ps-error">Cargando pedido…</div>';
+    document.body.classList.add('viendo-pedido');
+    document.getElementById('pedidoView').setAttribute('aria-hidden','false');
+    buscarPedido(codigo)
+      .then(o => mostrarPedido(o, x => x, 'No encontramos este pedido. Revisá que el enlace esté completo.'))
+      .catch(() => mostrarPedido(null, () => null, 'No se pudo cargar el pedido. Revisá tu conexión y volvé a abrir el enlace.'));
+    return;
+  }
   if(crudo.startsWith('p=')){
     mostrarPedido(crudo.slice(2), decodificarPedidoCorto);
     return;
